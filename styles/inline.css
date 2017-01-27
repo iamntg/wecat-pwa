@@ -30,6 +30,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'bree_serif';
+    src: url('fonts/BreeSerif-Regular.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -87,7 +94,7 @@ body {
     position: fixed;
     font-size: 20px;
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 2px 9px 1px rgba(0, 0, 0, 0.12), 0 4px 2px -2px rgba(0, 0, 0, 0.2);
-    padding: 14px 16px 0 16px;
+    padding: 8px 16px;
     will-change: transform;
     display: -webkit-box;
     display: -webkit-flex;
@@ -550,6 +557,8 @@ body {
     width: 95%;
     margin: 16px auto;
     padding: 16px 12px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.25);
 }
 
 .wecat-emp-card .avatar-container {
@@ -573,10 +582,11 @@ body {
 
 .wecat-emp-card .detail-container .emp-name {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
     display: inline-block;
     margin-right: 5px;
-    font-family: 'open_sans_bold';
+    margin-top: -5px;
+    font-family: 'bree_serif';
 }
 
 .wecat-emp-card .detail-container .emp-designation {
@@ -600,7 +610,7 @@ body {
     font-weight: bold;
     border-right: 1px solid #444;
     text-align: center;
-    font-family: 'open_sans_bold';
+    font-family: 'bree_serif';
 }
 
 .wecat-emp-card .detail-container .main-details .blood-group .bld-group1 {
@@ -669,16 +679,33 @@ body {
 }
 
 @keyframes availability-key {
-  0% {
-    width: 0;
-    height: 0px;
-  }
-  100% {
-    width: 25px;
-    height: 25px;
-  }
+    0% {
+        width: 0;
+        height: 0px;
+    }
+    100% {
+        width: 25px;
+        height: 25px;
+    }
 }
 
+.logo_name {
+    text-align: center;
+    margin: 0 auto;
+    padding-right: 12px;
+}
+
+.logo_name img {
+    width: 36px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.logo_name h1 {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: 'open_sans_bold';
+}
 
 
 /*
