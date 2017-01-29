@@ -553,6 +553,213 @@ body {
     background-color: #3f51b5;
 }
 
+
+/*------------------- Modal Popup Styles --------------------*/
+
+
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+    font-family: 'open_sans_regular';
+}
+
+
+/* Modal Content */
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+
+/* Add Animation */
+
+@-webkit-keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+
+/* The Close Button */
+
+.modal-header .close {
+    width: 14px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+
+.modal-header .close img {
+    max-width: 100%;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #fbfbfb;
+    color: #4c4c4c;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.modal-header h4 {
+    margin: 8px auto;
+    font-family: 'open_sans_bold';
+}
+
+.modal-body {
+    padding: 2px 16px;
+}
+
+.modal-body .filter-section {
+    font-size: 14px;
+    margin: 8px auto;
+}
+
+.modal-body .filter-section .filter-section-title {
+    font-family: 'open_sans_semibold';
+}
+
+.modal-body .filter-section .filter-section-body {
+    /* margin: 6px auto;*/
+}
+
+.modal-body .filter-section .filter-section-body.two-row {
+    width: 49%;
+    display: inline-block;
+}
+
+.modal-footer {
+    padding: 6px 15px;
+    border-top: 1px solid #dadada;
+    text-align: right;
+}
+
+.modal-footer .act-buttons {
+    display: inline-block;
+}
+
+
+/*------------------- Checkbox Styles --------------------*/
+
+.customCheckbox {
+    width: 26px;
+    height: 26px;
+    position: relative;
+    margin: 15px 5px;
+    background: #2bc0e2;
+    border-radius: 50px;
+}
+
+.customCheckbox label {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    cursor: pointer;
+    background: #0c8aa7;
+    border-radius: 50px;
+}
+
+.customCheckbox label:after {
+    content: '';
+    width: 9px;
+    height: 5px;
+    position: absolute;
+    top: 5px;
+    left: 4px;
+    border: 3px solid #fcfff4;
+    border-top: none;
+    border-right: none;
+    background: transparent;
+    opacity: 0;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.customCheckbox label span {
+    position: absolute;
+    left: 30px;
+    width: 120px;
+}
+
+.customCheckbox input[type=checkbox] {
+    visibility: hidden;
+}
+
+.customCheckbox input[type=checkbox]:checked + label:after {
+    opacity: 1;
+}
+
+.customCheckbox input[type=radio] {
+    visibility: hidden;
+}
+
+.customCheckbox input[type=radio]:checked + label:after {
+    opacity: 1;
+}
+
+
+/*------------------- Card Styles --------------------*/
+
+.btn-clear {
+    background-color: transparent;
+    display: inline-block;
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: #004a5b;
+    font-family: 'open_sans_bold';
+    font-size: 14px;
+    padding: 7px 15px;
+    text-decoration: none;
+    outline: none;
+}
+
 .wecat-emp-card {
     width: 95%;
     margin: 16px auto;
@@ -691,12 +898,12 @@ body {
 
 .logo_name {
     text-align: center;
-    margin: 0 auto;
-    padding-right: 12px;
+    padding-left: 5px;
+    padding-top: 2px;
 }
 
 .logo_name img {
-    width: 36px;
+    width: 33px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -704,7 +911,40 @@ body {
 .logo_name h1 {
     display: inline-block;
     vertical-align: middle;
-    font-family: 'open_sans_bold';
+    font-family: 'bree_serif';
+    font-size: 24px;
+}
+
+
+/* footer styles */
+
+.footer-btns {
+    width: 100%;
+    background: #ccc;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 1px;
+}
+
+.footer-btns button {
+    font-family: 'open_sans_semibold';
+    color: #444;
+    font-size: 15px;
+    background: white;
+    padding: 15px 20px;
+    width: 49.3%;
+    border: none;
+    outline: none;
+}
+
+.footer-btns button img {
+    max-width: 16px;
+    margin-right: 8px;
+}
+
+.footer-btns button:hover {
+    background: #b9dbe2;
+    text-decoration: none;
 }
 
 

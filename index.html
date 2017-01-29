@@ -1,67 +1,146 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WeCAT</title>
-  <link rel="stylesheet" type="text/css" href="styles/inline.css">
-
-  <!-- TODO add manifest here -->
-  <link rel="manifest" href="/manifest.json">
-  <!-- Add to home screen for Safari on iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="WeCAT">
-  <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
-  <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
-  <meta name="msapplication-TileColor" content="#2F3BA2">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeCAT</title>
+    <link rel="stylesheet" type="text/css" href="styles/inline.css">
+    <!-- TODO add manifest here -->
+    <link rel="manifest" href="/manifest.json">
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="WeCAT">
+    <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
+    <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#2F3BA2">
 </head>
+
 <body>
-
-  <header class="header">
-    <div class="logo_name">
-      <img src="images/icons/icon-256x256.png">
-      <h1 class="header__title">WeCAT</h1>
-    </div>
-  </header>
-
-  <main class="main">
-    <div class="card cardTemplate weather-forecast wecat-emp-card" >
-      <div class="card-key" hidden></div>
-      <div class="card-last-updated" hidden></div>
-      <div class="avatar-container">
-        <img class="avatar" src="images/ntg.jpg">
-        <div class="availability"></div>
-      </div>
-      <div class="detail-container">
-        <div class="emp-name">Nitheesh T Ganesh</div>
-        <div class="emp-designation">
-          <strong>23 yrs</strong>, <span class="emp-jobtitle">CEO</span>
+    <header class="header">
+        <div class="logo_name">
+            <img src="images/icons/icon-256x256.png">
+            <h1 class="header__title">WeCAT</h1>
         </div>
-        <div class="main-details">
-          <div class="blood-group"><span class="bld-group1">AB</span><sup class="bld-group2">-ve</sup></div>
-          <div class="contact">
-            <div class="phone-no">+91 77364 26577</div>
-          </div>
+    </header>
+    <main class="main">
+        <div class="card cardTemplate weather-forecast wecat-emp-card">
+            <div class="card-key" hidden></div>
+            <div class="card-last-updated" hidden></div>
+            <div class="avatar-container">
+                <img class="avatar" src="images/ntg.jpg">
+                <div class="availability"></div>
+            </div>
+            <div class="detail-container">
+                <div class="emp-name">Nitheesh T Ganesh</div>
+                <div class="emp-designation">
+                    <strong>23 yrs</strong>, <span class="emp-jobtitle">CEO</span>
+                </div>
+                <div class="main-details">
+                    <div class="blood-group"><span class="bld-group1">AB</span><sup class="bld-group2">-ve</sup></div>
+                    <div class="contact">
+                        <div class="phone-no">+91 77364 26577</div>
+                    </div>
+                </div>
+                <div class="last-donated"><strong>Last Donated: </strong> <span class="don-date">12-Aug-2016</span></div>
+                <div class="remaining-days">(<strong class="rem-days">51</strong> days ago)</div>
+            </div>
         </div>
-        <div class="last-donated"><strong>Last Donated: </strong> <span class="don-date">12-Aug-2016</span></div>
-        <div class="remaining-days">(<strong class="rem-days">51</strong> days ago)</div>
-      </div>
+    </main>
+
+    <footer>
+        <div class="footer-btns">
+          <button id="filterModalBtn"><img src="images/filter-icon.svg">Filter</button>
+          <button id="SortModalBtn"><img src="images/sort-icon.svg">Sort</button>
+        </div>
+    </footer>
+
+
+    <div class="loader">
+        <svg viewBox="0 0 32 32" width="32" height="32">
+            <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+        </svg>
     </div>
 
-  </main>
 
-  <div class="loader">
-    <svg viewBox="0 0 32 32" width="32" height="32">
-      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
-    </svg>
-  </div>
-
-  <!-- Uncomment the line below when ready to test with fake data -->
-  <script src="scripts/idb.js" async></script>
-  <script src="scripts/app.js" async></script>
-
+    <!-- The Modal -->
+    <div id="filterModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close">
+                    <img src="images/close-button-round.svg">
+                </div>
+                <h4>Filter..</h4>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section">
+                    <div class="filter-section-title">Using Availability</div>
+                    <form class="filter-section-body" id="availability-filter">
+                        <div class="customCheckbox">
+                          <input type="radio" value="Available" id="Available" name="availability-filter"/>
+                          <label for="Available"><span>Available Only</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="radio" value="Unavailable" id="Unavailable" name="availability-filter"/>
+                          <label for="Unavailable"><span>Unavailable Only</span></label>
+                        </div>
+                    </form>
+                </div>
+                <div class="filter-section">
+                    <div class="filter-section-title">Using Blood Group</div>
+                    <form class="filter-section-body two-row bloodgroup-filter">
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="A+ve" id="A+ve" name="bloodgroup-filter"/>
+                          <label for="A+ve"><span>A+ve</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="B+ve" id="B+ve" name="bloodgroup-filter"/>
+                          <label for="B+ve"><span>B+ve</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="O+ve" id="O+ve" name="bloodgroup-filter"/>
+                          <label for="O+ve"><span>O+ve</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="AB+ve" id="AB+ve" name="bloodgroup-filter"/>
+                          <label for="AB+ve"><span>AB+ve</span></label>
+                        </div>
+                    </form>
+                    <form class="filter-section-body two-row bloodgroup-filter">
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="A-ve" id="A-ve" name="bloodgroup-filter"/>
+                          <label for="A-ve"><span>A-ve</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="B-ve" id="B-ve" name="bloodgroup-filter"/>
+                          <label for="B-ve"><span>B-ve</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="O-ve" id="O-ve" name="bloodgroup-filter"/>
+                          <label for="O-ve"><span>O-ve</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="checkbox" value="AB-ve" id="AB-ve" name="bloodgroup-filter"/>
+                          <label for="AB-ve"><span>AB-ve</span></label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <div class="act-buttons">
+                <button class="btn-clear" id="clearbtn">Clear</button>
+                <button class="btn-clear" id="filterbtn">Filter</button>
+              </div>
+            </div>
+        </div>
+    </div>
+    <!-- Uncomment the line below when ready to test with fake data -->
+    <script src="scripts/idb.js" async></script>
+    <script src="scripts/app.js" async></script>
 </body>
+
 </html>

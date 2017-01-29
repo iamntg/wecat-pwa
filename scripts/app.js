@@ -9,58 +9,59 @@
         spinner: document.querySelector('.loader'),
         cardTemplate: document.querySelector('.cardTemplate'),
         container: document.querySelector('.main'),
-        addDialog: document.querySelector('.dialog-container')
+        addDialog: document.querySelector('.dialog-container'),
+        filterArray: []
     };
 
     const dbPromise = idb.open('keyval-store', 1, upgradeDB => {
-      upgradeDB.createObjectStore('keyval');
+        upgradeDB.createObjectStore('keyval');
     });
 
     const idbKeyval = {
-      get(key) {
-        return dbPromise.then(db => {
-          return db.transaction('keyval')
-            .objectStore('keyval').get(key);
-        });
-      },
-      set(key, val) {
-        return dbPromise.then(db => {
-          const tx = db.transaction('keyval', 'readwrite');
-          tx.objectStore('keyval').put(val, key);
-          return tx.complete;
-        });
-      },
-      delete(key) {
-        return dbPromise.then(db => {
-          const tx = db.transaction('keyval', 'readwrite');
-          tx.objectStore('keyval').delete(key);
-          return tx.complete;
-        });
-      },
-      clear() {
-        return dbPromise.then(db => {
-          const tx = db.transaction('keyval', 'readwrite');
-          tx.objectStore('keyval').clear();
-          return tx.complete;
-        });
-      },
-      keys() {
-        return dbPromise.then(db => {
-          const tx = db.transaction('keyval');
-          const keys = [];
-          const store = tx.objectStore('keyval');
+        get(key) {
+            return dbPromise.then(db => {
+                return db.transaction('keyval')
+                    .objectStore('keyval').get(key);
+            });
+        },
+        set(key, val) {
+            return dbPromise.then(db => {
+                const tx = db.transaction('keyval', 'readwrite');
+                tx.objectStore('keyval').put(val, key);
+                return tx.complete;
+            });
+        },
+        delete(key) {
+            return dbPromise.then(db => {
+                const tx = db.transaction('keyval', 'readwrite');
+                tx.objectStore('keyval').delete(key);
+                return tx.complete;
+            });
+        },
+        clear() {
+            return dbPromise.then(db => {
+                const tx = db.transaction('keyval', 'readwrite');
+                tx.objectStore('keyval').clear();
+                return tx.complete;
+            });
+        },
+        keys() {
+            return dbPromise.then(db => {
+                const tx = db.transaction('keyval');
+                const keys = [];
+                const store = tx.objectStore('keyval');
 
-          // This would be store.getAllKeys(), but it isn't supported by Edge or Safari.
-          // openKeyCursor isn't supported by Safari, so we fall back
-          (store.iterateKeyCursor || store.iterateCursor).call(store, cursor => {
-            if (!cursor) return;
-            keys.push(cursor.key);
-            cursor.continue();
-          });
+                // This would be store.getAllKeys(), but it isn't supported by Edge or Safari.
+                // openKeyCursor isn't supported by Safari, so we fall back
+                (store.iterateKeyCursor || store.iterateCursor).call(store, cursor => {
+                    if (!cursor) return;
+                    keys.push(cursor.key);
+                    cursor.continue();
+                });
 
-          return tx.complete.then(() => keys);
-        });
-      }
+                return tx.complete.then(() => keys);
+            });
+        }
     };
 
     /*****************************************************************************
@@ -114,16 +115,16 @@
             card.querySelector('.main-details .blood-group .bld-group2').textContent = bloodGroup2;
         }
         card.querySelector('.main-details .contact .phone-no').textContent = data.contact;
-        var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var lastdonated = new Date(data.lastDonated);
         var lastdonDate = lastdonated.getUTCDate() + '-' + monthNames[lastdonated.getMonth()] + '-' + lastdonated.getFullYear();
         card.querySelector('.last-donated .don-date').textContent = lastdonDate;
         var today = new Date();
         var timeDiff = Math.abs(today.getTime() - lastdonated.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
+        var diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         card.querySelector('.remaining-days .rem-days').textContent = diffDays;
 
-        console.log(data.name + " ---> " +getAge(data.dateOfBirth) + " ---> " + isAvailable(data.lastDonated));
+        console.log(data.name + " ---> " + getAge(data.dateOfBirth) + " ---> " + isAvailable(data.lastDonated));
 
         if (app.isLoading) {
             app.spinner.setAttribute('hidden', true);
@@ -148,7 +149,7 @@
     function isAvailable(lastDonated) {
         var isAvailable = false;
         var diffDays = calculateRemainingDays(lastDonated);
-        if(diffDays > 90) {
+        if (diffDays > 90) {
             isAvailable = true;
         }
         return isAvailable;
@@ -158,7 +159,7 @@
         var today = new Date();
         var lastDonated = new Date(lastDonated);
         var timeDiff = Math.abs(today.getTime() - lastDonated.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
+        var diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         return diffDays;
     }
 
@@ -189,7 +190,7 @@
                     response.json().then(function updateFromCache(json) {
                         console.log('json', json);
                         var results = json.query.results;
-                        for(var inc=0; inc < results.length; inc++) {
+                        for (var inc = 0; inc < results.length; inc++) {
                             app.updateUserCard(results[inc]);
                         }
                     });
@@ -207,16 +208,16 @@
                     // idbKeyval.set('userlist', response);
                     app.currentUserList = response;
                     app.saveSelectedUsers();
-                    for(var inc=0; inc < response.length; inc++) {
+                    for (var inc = 0; inc < response.length; inc++) {
                         app.updateUserCard(response[inc]);
                     }
-                    
+
                 } else {
                     // Return the initial weather forecast since no data is available.
                     app.updateUserCard(initialUserData);
                 }
             } else {
-                console.log('request not completed!!'); 
+                console.log('request not completed!!');
             }
         };
         request.open('GET', url);
@@ -250,10 +251,10 @@
             activeOn: true,
             createdAt: "2016-11-26T17:49:22.044Z",
             updatedAt: "2016-11-26T17:49:22.044Z",
-            id: "5839cb22d5ed7dbc12ee66e9"
+            id: "000000000000000000000000"
         }
-    // TODO uncomment line below to test app with fake data
-    // app.updateUserCard(initialUserData);
+        // TODO uncomment line below to test app with fake data
+        // app.updateUserCard(initialUserData);
 
     /************************************************************************
      *
@@ -261,7 +262,7 @@
      *
      ************************************************************************/
 
-    idbKeyval.get('userlist').then(function(value){
+    idbKeyval.get('userlist').then(function(value) {
         console.log(value);
         app.currentUserList = value;
         if (app.currentUserList) {
@@ -277,12 +278,149 @@
         }
         app.getUsers();
     });
-    
+
+
+    // Get the modal
+    var filterModal = document.getElementById('filterModal');
+
+    // Get the button that opens the modal
+    var filterModalBtn = document.getElementById("filterModalBtn");
+
+    // Get the <span> element that closes the modal
+    var closeModalBtn = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    filterModalBtn.onclick = function() {
+        filterModal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    closeModalBtn.onclick = function() {
+        closeModal();
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == filterModal) {
+            closeModal();
+        }
+    }
+
+    function closeModal() {
+        if(filterModal) {
+            filterModal.style.display = "none";
+        }
+    }
+
+    var filterbtn = document.getElementById('filterbtn');
+    var clearbtn = document.getElementById('clearbtn');
+    var availabilityFilter = document.getElementById('availability-filter');
+    var bloodgroupFilter = document.getElementsByClassName('bloodgroup-filter');
+
+    //filter the list from modal by choosing the required checkboxes
+    filterbtn.onclick = function() {
+        console.log('bloodgroupFilter', bloodgroupFilter);
+        app.filterArray['availabilityFilter'] = getSelectedValueArray(availabilityFilter);
+        app.filterArray['bloodgroupFilter'] = getSelectedValueArray(bloodgroupFilter[0]);
+        app.filterArray['bloodgroupFilter'] = app.filterArray['bloodgroupFilter'].concat(getSelectedValueArray(bloodgroupFilter[1]));
+        console.log('app.filterArray', app.filterArray);
+        console.log('app.visibleCards', app.visibleCards);
+        var filterList = [];
+        var isFiltered = false;
+        console.log('app.currentUserList', app.currentUserList);
+        for (var userinc = 0; userinc < app.currentUserList.length; userinc++) {
+            for (var inc = 0; inc < app.filterArray['bloodgroupFilter'].length; inc++) {
+                if (app.currentUserList[userinc].bloodGroup === app.filterArray['bloodgroupFilter'][inc]) {
+                    filterList.push(app.currentUserList[userinc]);
+                    isFiltered = true;
+                    break;
+                }
+            }
+        }
+        var finalIDList = [];
+        if (!filterList.length) {
+            filterList = app.currentUserList;
+        }
+        for (var inc = 0; inc < filterList.length; inc++) {
+            if (app.filterArray['availabilityFilter'][0] === "Available") {
+                if (filterList[inc].isAvailable) {
+                    isFiltered = true;
+                    finalIDList.push(filterList[inc]);
+                }
+            } else if (app.filterArray['availabilityFilter'][0] === "Unavailable") {
+                if (!filterList[inc].isAvailable) {
+                    isFiltered = true;
+                    finalIDList.push(filterList[inc]);
+                }
+            }
+        }
+        
+
+        if(!finalIDList.length) {
+            finalIDList = filterList;
+        }
+
+        console.log('finalIDList', finalIDList);
+        for (var userinc = 0; userinc < app.currentUserList.length; userinc++) {
+            var isfound = false;
+            app.visibleCards[app.currentUserList[userinc].id].removeAttribute('hidden');
+            for (var inc = 0; inc < finalIDList.length; inc++) {
+                if(app.currentUserList[userinc].id === finalIDList[inc].id) {
+                    isfound = true;
+                    break;
+                }
+            }
+            if(!isfound){
+                app.visibleCards[app.currentUserList[userinc].id].setAttribute('hidden', true);
+            }
+        }
+        console.log('isFiltered', isFiltered);
+
+        closeModal();
+    }
+
+    clearbtn.onclick = function(){
+        clearAllTheFilters();
+        closeModal();
+    }
+
+    //This for clearing all the selected values in the filter list and making all cards visible
+    function clearAllTheFilters() {
+        app.filterArray = [];
+        clearSelectedValues(availabilityFilter);
+        clearSelectedValues(bloodgroupFilter[0]);
+        clearSelectedValues(bloodgroupFilter[1]);
+        for (var userinc = 0; userinc < app.currentUserList.length; userinc++) {
+            app.visibleCards[app.currentUserList[userinc].id].removeAttribute('hidden');
+        }
+    }
+
+
+    function getSelectedValueArray(filter) {
+        var valueArray = [];
+        var elements = filter.elements;
+        for (var inc = 0; inc < elements.length; inc++) {
+            if (elements[inc].checked) {
+                valueArray.push(elements[inc].value);
+            }
+        }
+        return valueArray;
+    }
+
+    function clearSelectedValues(filter) {
+        var elements = filter.elements;
+        for (var inc = 0; inc < elements.length; inc++) {
+            if (elements[inc].checked) {
+                elements[inc].checked =  false;
+            }
+        }
+    }
+
 
     // TODO add service worker code here
-    if ('serviceWorker' in navigator) {
+    /*if ('serviceWorker' in navigator) {
       navigator.serviceWorker
                .register('./service-worker.js')
                .then(function() { console.log('Service Worker Registered'); });
-    }
+    }*/
 })();
