@@ -316,175 +316,6 @@ body {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
-.weather-forecast .location {
-    font-size: 1.75em;
-}
-
-.weather-forecast .date,
-.weather-forecast .description {
-    font-size: 1.25em;
-}
-
-.weather-forecast .current {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
-
-.weather-forecast .current .icon {
-    width: 128px;
-    height: 128px;
-}
-
-.weather-forecast .current .visual {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    font-size: 4em;
-}
-
-.weather-forecast .current .visual .scale {
-    font-size: 0.5em;
-    vertical-align: super;
-}
-
-.weather-forecast .current .visual,
-.weather-forecast .current .description {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-}
-
-.weather-forecast .current .sunset:before {
-    content: "Sunset: ";
-    color: #888;
-}
-
-.weather-forecast .current .wind:before {
-    content: "Wind: ";
-    color: #888;
-}
-
-.weather-forecast .current .sunrise:before {
-    content: "Sunrise: ";
-    color: #888;
-}
-
-.weather-forecast .current .humidity:before {
-    content: "Humidity: ";
-    color: #888;
-}
-
-.weather-forecast .current .pollen:before {
-    content: "Pollen Count: ";
-    color: #888;
-}
-
-.weather-forecast .current .pcount:before {
-    content: "Pollen ";
-    color: #888;
-}
-
-.weather-forecast .future {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-}
-
-.weather-forecast .future .oneday {
-    -webkit-box-flex: 1;
-    -webkit-flex-grow: 1;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    text-align: center;
-}
-
-.weather-forecast .future .oneday .icon {
-    width: 64px;
-    height: 64px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.weather-forecast .future .oneday .temp-high,
-.weather-forecast .future .oneday .temp-low {
-    display: inline-block;
-}
-
-.weather-forecast .future .oneday .temp-low {
-    color: #888;
-}
-
-.weather-forecast .icon {
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-
-.weather-forecast .icon.clear-day {
-    background-image: url("/images/clear.png");
-}
-
-.weather-forecast .icon.clear-night {
-    background-image: url("/images/clear.png");
-}
-
-.weather-forecast .icon.rain {
-    background-image: url("/images/rain.png");
-}
-
-.weather-forecast .icon.snow {
-    background-image: url("/images/snow.png");
-}
-
-.weather-forecast .icon.sleet {
-    background-image: url("/images/sleet.png");
-}
-
-.weather-forecast .icon.windy {
-    background-image: url("/images/wind.png");
-}
-
-.weather-forecast .icon.fog {
-    background-image: url("/images/fog.png");
-}
-
-.weather-forecast .icon.cloudy {
-    background-image: url("/images/cloudy.png");
-}
-
-.weather-forecast .icon.partly-cloudy-day {
-    background-image: url("/images/partly-cloudy.png");
-}
-
-.weather-forecast .icon.partly-cloudy-night {
-    background-image: url("/images/partly-cloudy.png");
-}
-
-.weather-forecast .icon.thunderstorms {
-    background-image: url("/images/thunderstorm.png");
-}
-
-@media (max-width: 450px) {
-    .weather-forecast .date,
-    .weather-forecast .description {
-        font-size: 0.9em;
-    }
-    .weather-forecast .current .icon {
-        width: 96px;
-        height: 96px;
-    }
-    .weather-forecast .current .visual {
-        font-size: 3em;
-    }
-    .weather-forecast .future .oneday .icon {
-        width: 32px;
-        height: 32px;
-    }
-}
 
 .mdl-button {
     background: transparent;
@@ -764,8 +595,17 @@ body {
     width: 95%;
     margin: 16px auto;
     padding: 16px 12px;
-    border-radius: 10px;
+    border-radius: 6px;
     box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    /*-webkit-transform: perspective(350px) rotateX(-90deg);
+    transform: perspective(350px) rotateX(-90deg);
+    -webkit-transform-origin: 50% 0%;
+    transform-origin: 50% 0%;*/
+    animation: flipperUp 0.7s;
+    animation-fill-mode: forwards;
+    -webkit-animation: flipperUp 0.7s;
+    -webkit-animation-fill-mode: forwards;
 }
 
 .wecat-emp-card .avatar-container {
@@ -775,6 +615,7 @@ body {
 
 .wecat-emp-card .avatar-container .avatar {
     max-width: 100%;
+    max-height: 140px;
     border-radius: 50%;
     margin: 0 auto;
     display: block;
@@ -790,10 +631,19 @@ body {
 .wecat-emp-card .detail-container .emp-name {
     font-weight: bold;
     font-size: 20px;
-    display: inline-block;
+    display: block;
     margin-right: 5px;
     margin-top: -5px;
     font-family: 'bree_serif';
+}
+
+.wecat-emp-card .detail-container .emp-email {
+    font-size: 60%;
+    color: #2f2f2f;
+    font-family: 'open_sans_semibold';
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .wecat-emp-card .detail-container .emp-designation {
@@ -801,6 +651,10 @@ body {
     color: #777;
     display: inline-block;
     font-family: 'open_sans_light';
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .wecat-emp-card .detail-container .main-details {
@@ -859,6 +713,10 @@ body {
     margin-right: 5px;
 }
 
+.wecat-emp-card .detail-container .last-donated .don-date {
+    font-family: 'open_sans_bold', sans-serif;
+}
+
 .wecat-emp-card .detail-container .remaining-days {
     font-size: 13px;
     color: #777;
@@ -885,6 +743,69 @@ body {
     animation: availability-key .5s ease .45s forwards;
 }
 
+.wecat-emp-card.collapsed-card {
+    margin: 10px auto;
+    animation: flipper 0.7s;
+    animation-fill-mode: forwards;
+    -webkit-animation: flipper 0.7s;
+    -webkit-animation-fill-mode: forwards;
+}
+
+.wecat-emp-card.collapsed-card .emp-designation,
+.wecat-emp-card.collapsed-card .last-donated,
+.wecat-emp-card.collapsed-card .main-details .contact,
+.wecat-emp-card.collapsed-card .emp-email {
+    display: none;
+}
+
+.wecat-emp-card.collapsed-card .avatar-container {
+    width: 20%;
+}
+
+.wecat-emp-card.collapsed-card .detail-container {
+    width: 78%;
+    padding-top: 3%;
+    padding-left: 3%;
+}
+
+.wecat-emp-card.collapsed-card .emp-name {
+    font-size: 18px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wecat-emp-card.collapsed-card .main-details {
+    padding: 2px 0px;
+    display: inline-block;
+    width: 28%;
+}
+
+.wecat-emp-card.collapsed-card .main-details .blood-group {
+    font-size: 145%;
+    text-align: left;
+    width: 100%;
+    border-right: 1px solid #bdbdbd;
+}
+
+.wecat-emp-card.collapsed-card .main-details .blood-group .bld-group2 {
+    font-size: 75%;
+    margin-left: 2px;
+}
+
+.wecat-emp-card.collapsed-card .avatar-container .availability {
+    left: 16%;
+    width: 18px;
+    height: 18px;
+    margin-top: -14px;
+    animation: availability-key-collapsed .5s ease .45s forwards;
+}
+
+.wecat-emp-card.collapsed-card .detail-container .remaining-days {
+    vertical-align: sub;
+}
+
 @keyframes availability-key {
     0% {
         width: 0;
@@ -893,6 +814,82 @@ body {
     100% {
         width: 25px;
         height: 25px;
+    }
+}
+
+@keyframes availability-key-collapsed {
+    0% {
+        width: 0;
+        height: 0px;
+    }
+    100% {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@keyframes colapsed-card-anime {
+    0% {
+        width: 0;
+        height: 0px;
+    }
+    100% {
+        width: inherit;
+        height: inherit;
+    }
+}
+
+@keyframes flipper {
+    0% {
+        transform: perspective(350px) rotateX(-90deg);
+    }
+    33% {
+        transform: perspective(350px) rotateX(0deg);
+    }
+    66% {
+        transform: perspective(350px) rotateX(10deg);
+    }
+    100% {
+        transform: perspective(350px) rotateX(0deg);
+    }
+}
+
+@-webkit-keyframes flipper {
+    0% {
+        -webkit-transform: perspective(350px) rotateX(-90deg);
+    }
+    33% {
+        -webkit-transform: perspective(350px) rotateX(0deg);
+    }
+    66% {
+        -webkit-transform: perspective(350px) rotateX(10deg);
+    }
+    100% {
+        -webkit-transform: perspective(350px) rotateX(0deg);
+    }
+}
+
+@keyframes flipperUp {
+    0% {
+        transform: perspective(350px) rotateX(0deg);
+    }
+    33% {
+        transform: perspective(350px) rotateX(10deg);
+    }
+    66% {
+        transform: perspective(350px) rotateX(0deg);
+    }
+}
+
+@-webkit-keyframes flipperUp {
+    0% {
+        -webkit-transform: perspective(350px) rotateX(0deg);
+    }
+    33% {
+        -webkit-transform: perspective(350px) rotateX(10deg);
+    }
+    66% {
+        -webkit-transform: perspective(350px) rotateX(0deg);
     }
 }
 
@@ -962,5 +959,66 @@ body {
     }
     .wecat-emp-card .detail-container .main-details .contact .phone-no {
         font-size: 63%;
+    }
+}
+
+@media only screen and (min-width:481px) {
+    /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+    .wecat-emp-card {
+        width: 70%;
+    }
+}
+
+@media only screen and (min-width:641px) {
+    /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+    .wecat-emp-card {
+        width: 55%;
+    }
+}
+
+@media only screen and (min-width:961px) {
+    /* tablet, landscape iPad, lo-res laptops ands desktops */
+    .wecat-emp-card {
+        width: 46%;
+        display: inline-block;
+        margin: 10px 2%;
+    }
+    .wecat-emp-card.collapsed-card {
+        margin: 10px 2%;
+    }
+}
+
+@media only screen and (min-width:1025px) {
+    /* big landscape tablets, laptops, and desktops */
+    .wecat-emp-card {
+        width: 35%;
+        margin: 10px 7%;
+    }
+    .wecat-emp-card.collapsed-card {
+        margin: 10px 7%;
+    }
+}
+
+@media only screen and (min-width:1281px) {
+    /* hi-res laptops and desktops */
+    .wecat-emp-card {
+        width: 30%;
+        display: inline-block;
+        margin: 10px 1.5%;
+    }
+    .wecat-emp-card.collapsed-card {
+        margin: 10px 1.5%;
+    }
+}
+
+@media only screen and (min-width:1900px) {
+    /* hi-res laptops and desktops */
+    .wecat-emp-card {
+        width: 22%;
+        display: inline-block;
+        margin: 10px 1.5%;
+    }
+    .wecat-emp-card.collapsed-card {
+        margin: 10px 1.5%;
     }
 }

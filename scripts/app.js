@@ -1,16 +1,23 @@
 (function() {
     'use strict';
 
+    var baseUrlConfig = {
+        "development": 'http://localhost:1337/',
+        "staging": 'http://wecat.herokuapp.com/',
+        "production": 'http://localhost:1337/'
+    }
+
     var app = {
         isLoading: true,
+        baseUrl: baseUrlConfig.staging,
         visibleCards: {},
-        selectedCities: [],
         currentUserList: [],
         spinner: document.querySelector('.loader'),
         cardTemplate: document.querySelector('.cardTemplate'),
         container: document.querySelector('.main'),
         addDialog: document.querySelector('.dialog-container'),
-        filterArray: []
+        filterArray: [],
+        sortUsing: ''
     };
 
     const dbPromise = idb.open('keyval-store', 1, upgradeDB => {
@@ -108,6 +115,7 @@
         card.querySelector('.detail-container .emp-name').textContent = data.name;
         card.querySelector('.detail-container .emp-designation strong').textContent = data.age + ' yrs';
         card.querySelector('.detail-container .emp-jobtitle').textContent = data.jobTitle;
+        card.querySelector('.detail-container .emp-email').textContent = data.workEmail;
         if (data.bloodGroup) {
             var bloodGroup1 = data.bloodGroup.substring(0, (data.bloodGroup.length - 3));
             var bloodGroup2 = data.bloodGroup.substring((data.bloodGroup.length - 3), data.bloodGroup.length);
@@ -123,6 +131,9 @@
         var timeDiff = Math.abs(today.getTime() - lastdonated.getTime());
         var diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
         card.querySelector('.remaining-days .rem-days').textContent = diffDays;
+
+        //adding click events to the card
+        card.addEventListener("click", toggleCardLayout);
 
         console.log(data.name + " ---> " + getAge(data.dateOfBirth) + " ---> " + isAvailable(data.lastDonated));
 
@@ -163,6 +174,19 @@
         return diffDays;
     }
 
+    function toggleCardLayout(event) {
+        var classList = ''
+        if(event.target.classList.value.includes("wecat-emp-card")) {
+            classList = event.target.classList;
+        } else if(event.target.offsetParent.classList.value.includes("wecat-emp-card")) {
+            classList = event.target.offsetParent.classList;
+        }
+        if (classList.value.includes("collapsed-card")) {
+            classList.remove('collapsed-card');
+        } else {
+            classList.add('collapsed-card');
+        }
+    }
 
 
     /*****************************************************************************
@@ -180,9 +204,8 @@
      * freshest data.
      */
     app.getUsers = function() {
-        var url = 'http://192.168.0.102:1337/users/getAll';
+        var url = app.baseUrl + 'users/getAll';
         console.log('window', window);
-        // TODO add cache logic here
         if ('caches' in window) {
             caches.match(url).then(function(response) {
                 if (response) {
@@ -214,7 +237,9 @@
 
                 } else {
                     // Return the initial weather forecast since no data is available.
-                    app.updateUserCard(initialUserData);
+                    if (!app.currentUserList.length) {
+                        app.updateUserCard(initialUserData);
+                    }
                 }
             } else {
                 console.log('request not completed!!');
@@ -222,6 +247,7 @@
         };
         request.open('GET', url);
         request.send();
+        // addClickEventToCards();
     };
 
 
@@ -280,42 +306,65 @@
     });
 
 
-    // Get the modal
+    // Get the filter modal
     var filterModal = document.getElementById('filterModal');
 
-    // Get the button that opens the modal
+    // Get the sort modal
+    var sortModal = document.getElementById('sortModal');
+
+    // Get the button that opens the filter modal
     var filterModalBtn = document.getElementById("filterModalBtn");
 
+    // Get the button that opens the sort modal
+    var sortModalBtn = document.getElementById("SortModalBtn");
+
     // Get the <span> element that closes the modal
-    var closeModalBtn = document.getElementsByClassName("close")[0];
+    var closeFilterModalBtn = document.getElementsByClassName("close-filterModal")[0];
+    var closeSortModalBtn = document.getElementsByClassName("close-sortModal")[0];
 
     // When the user clicks the button, open the modal 
     filterModalBtn.onclick = function() {
         filterModal.style.display = "block";
     }
 
+    // When the user clicks the button, open the modal 
+    sortModalBtn.onclick = function() {
+        sortModal.style.display = "block";
+    }
+
+
     // When the user clicks on <span> (x), close the modal
-    closeModalBtn.onclick = function() {
+    closeFilterModalBtn.onclick = function() {
+        closeModal();
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    closeSortModalBtn.onclick = function() {
         closeModal();
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-        if (event.target == filterModal) {
+        if ((event.target == filterModal) || (event.target == sortModal)) {
             closeModal();
         }
     }
 
     function closeModal() {
-        if(filterModal) {
+        if (filterModal.style.display === "block") {
             filterModal.style.display = "none";
+        } else if (sortModal.style.display === "block") {
+            sortModal.style.display = "none";
         }
     }
 
     var filterbtn = document.getElementById('filterbtn');
-    var clearbtn = document.getElementById('clearbtn');
+    var sortbtn = document.getElementById('sortbtn');
+    var filterClearbtn = document.getElementById('filterClearbtn');
+    var sortClearbtn = document.getElementById('sortClearbtn');
     var availabilityFilter = document.getElementById('availability-filter');
     var bloodgroupFilter = document.getElementsByClassName('bloodgroup-filter');
+    var sortingSection = document.getElementById('sorting-section');
 
     //filter the list from modal by choosing the required checkboxes
     filterbtn.onclick = function() {
@@ -354,9 +403,9 @@
                 }
             }
         }
-        
 
-        if(!finalIDList.length) {
+
+        if (!finalIDList.length) {
             finalIDList = filterList;
         }
 
@@ -365,12 +414,12 @@
             var isfound = false;
             app.visibleCards[app.currentUserList[userinc].id].removeAttribute('hidden');
             for (var inc = 0; inc < finalIDList.length; inc++) {
-                if(app.currentUserList[userinc].id === finalIDList[inc].id) {
+                if (app.currentUserList[userinc].id === finalIDList[inc].id) {
                     isfound = true;
                     break;
                 }
             }
-            if(!isfound){
+            if (!isfound) {
                 app.visibleCards[app.currentUserList[userinc].id].setAttribute('hidden', true);
             }
         }
@@ -379,8 +428,59 @@
         closeModal();
     }
 
-    clearbtn.onclick = function(){
+    sortbtn.onclick = function() {
+        var selectedValueArr = [];
+        var isSorted = false;
+        selectedValueArr = getSelectedValueArray(sortingSection);
+        app.sortUsing = selectedValueArr[0];
+        console.log('sortingSection', sortingSection);
+        console.log(getSelectedValueArray(sortingSection));
+
+        switch (app.sortUsing) {
+            case 'Availablity':
+                app.currentUserList.sort(function(a, b) {
+                    return parseInt(b.daysRemaining) - parseInt(a.daysRemaining);
+                });
+                isSorted = true;
+                break;
+            case 'Ascending':
+                app.currentUserList.sort(function(a, b) {
+                    return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
+                });
+                isSorted = true;
+                break;
+            case 'Decending':
+                app.currentUserList.sort(function(a, b) {
+                    return (a.name > b.name) ? -1 : ((b.name > a.name) ? 1 : 0);
+                });
+                isSorted = true;
+                break;
+            default:
+                console.log("reached default for " + app.sortUsing);
+        }
+
+
+        if (isSorted) {
+            for (var userinc = 0; userinc < app.currentUserList.length; userinc++) {
+                app.visibleCards[app.currentUserList[userinc].id].parentNode.removeChild(app.visibleCards[app.currentUserList[userinc].id]);
+            }
+
+            app.visibleCards = [];
+
+            for (var inc = 0; inc < app.currentUserList.length; inc++) {
+                app.updateUserCard(app.currentUserList[inc]);
+            }
+        }
+
+        closeModal();
+    }
+
+    filterClearbtn.onclick = function() {
         clearAllTheFilters();
+        closeModal();
+    }
+
+    sortClearbtn.onclick = function() {
         closeModal();
     }
 
@@ -411,13 +511,13 @@
         var elements = filter.elements;
         for (var inc = 0; inc < elements.length; inc++) {
             if (elements[inc].checked) {
-                elements[inc].checked =  false;
+                elements[inc].checked = false;
             }
         }
     }
 
 
-    // TODO add service worker code here
+    // add service worker code here
     /*if ('serviceWorker' in navigator) {
       navigator.serviceWorker
                .register('./service-worker.js')

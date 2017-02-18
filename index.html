@@ -27,7 +27,7 @@
         </div>
     </header>
     <main class="main">
-        <div class="card cardTemplate weather-forecast wecat-emp-card">
+        <div class="card cardTemplate wecat-emp-card collapsed-card" hidden>
             <div class="card-key" hidden></div>
             <div class="card-last-updated" hidden></div>
             <div class="avatar-container">
@@ -38,6 +38,34 @@
                 <div class="emp-name">Nitheesh T Ganesh</div>
                 <div class="emp-designation">
                     <strong>23 yrs</strong>, <span class="emp-jobtitle">CEO</span>
+                </div>
+                <div class="emp-email">
+                    nitheesh.ganesh@triassicsolutions.com
+                </div>
+                <div class="main-details">
+                    <div class="blood-group"><span class="bld-group1">AB</span><sup class="bld-group2">-ve</sup></div>
+                    <div class="contact">
+                        <div class="phone-no">+91 77364 26577</div>
+                    </div>
+                </div>
+                <div class="last-donated"><small>Last Donated: </small> <span class="don-date">12-Aug-2016</span></div>
+                <div class="remaining-days">(<strong class="rem-days">51</strong> days ago)</div>
+            </div>
+        </div>
+        <div class="card wecat-emp-card collapsed-card" hidden>
+            <div class="card-key" hidden></div>
+            <div class="card-last-updated" hidden></div>
+            <div class="avatar-container">
+                <img class="avatar" src="images/ntg.jpg">
+                <div class="availability"></div>
+            </div>
+            <div class="detail-container">
+                <div class="emp-name">Nitheesh T Ganesh</div>
+                <div class="emp-designation">
+                    <strong>23 yrs</strong>, <span class="emp-jobtitle">CEO</span>
+                </div>
+                <div class="emp-email">
+                    nitheesh.ganesh@triassicsolutions.com
                 </div>
                 <div class="main-details">
                     <div class="blood-group"><span class="bld-group1">AB</span><sup class="bld-group2">-ve</sup></div>
@@ -66,12 +94,12 @@
     </div>
 
 
-    <!-- The Modal -->
+    <!-- The Filter Modal -->
     <div id="filterModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <div class="close">
+                <div class="close close-filterModal">
                     <img src="images/close-button-round.svg">
                 </div>
                 <h4>Filter..</h4>
@@ -132,12 +160,50 @@
             </div>
             <div class="modal-footer">
               <div class="act-buttons">
-                <button class="btn-clear" id="clearbtn">Clear</button>
+                <button class="btn-clear" id="filterClearbtn">Clear</button>
                 <button class="btn-clear" id="filterbtn">Filter</button>
               </div>
             </div>
         </div>
     </div>
+
+    <!-- The Sort Modal -->
+    <div id="sortModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close close-sortModal">
+                    <img src="images/close-button-round.svg">
+                </div>
+                <h4>Sort..</h4>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section">
+                    <form class="filter-section-body" id="sorting-section">
+                        <div class="customCheckbox">
+                          <input type="radio" value="Availablity" id="Availablity" name="sorting-section"/>
+                          <label for="Availablity"><span>By Availablity</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="radio" value="Ascending" id="Ascending" name="sorting-section"/>
+                          <label for="Ascending"><span>A - Z</span></label>
+                        </div>
+                        <div class="customCheckbox">
+                          <input type="radio" value="Decending" id="Decending" name="sorting-section"/>
+                          <label for="Decending"><span>Z - A</span></label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <div class="act-buttons">
+                <button class="btn-clear" id="sortClearbtn">Reset</button>
+                <button class="btn-clear" id="sortbtn">Sort</button>
+              </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Uncomment the line below when ready to test with fake data -->
     <script src="scripts/idb.js" async></script>
     <script src="scripts/app.js" async></script>
