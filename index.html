@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#005265">
     <title>WeCAT</title>
     <link rel="stylesheet" type="text/css" href="styles/inline.css">
     <!-- TODO add manifest here -->
@@ -27,6 +28,15 @@
         </div>
     </header>
     <main class="main">
+        <div class="wecat-emp-card collapsed-card _4-u2 mbm _2iwp" hidden>
+            <div class="_2iwq">
+                <div class="_2iwr"></div>
+                <div class="_2iws"></div>
+                <div class="_2iwu"></div>
+                <div class="_2iwv"></div>
+                <div class="_2iww"></div>
+            </div>
+        </div>
         <div class="card cardTemplate wecat-emp-card collapsed-card" hidden>
             <div class="card-key" hidden></div>
             <div class="card-last-updated" hidden></div>
@@ -78,22 +88,17 @@
             </div>
         </div>
     </main>
-
     <footer>
         <div class="footer-btns">
-          <button id="filterModalBtn"><img src="images/filter-icon.svg">Filter</button>
-          <button id="SortModalBtn"><img src="images/sort-icon.svg">Sort</button>
+            <button id="filterModalBtn"><img src="images/filter-icon.svg">Filter</button>
+            <button id="SortModalBtn"><img src="images/sort-icon.svg">Sort</button>
         </div>
     </footer>
-
-
     <div class="loader">
         <svg viewBox="0 0 32 32" width="32" height="32">
             <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
         </svg>
     </div>
-
-
     <!-- The Filter Modal -->
     <div id="filterModal" class="modal">
         <!-- Modal content -->
@@ -109,12 +114,12 @@
                     <div class="filter-section-title">Using Availability</div>
                     <form class="filter-section-body" id="availability-filter">
                         <div class="customCheckbox">
-                          <input type="radio" value="Available" id="Available" name="availability-filter"/>
-                          <label for="Available"><span>Available Only</span></label>
+                            <input type="radio" value="Available" id="Available" name="availability-filter" />
+                            <label for="Available"><span>Available Only</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="radio" value="Unavailable" id="Unavailable" name="availability-filter"/>
-                          <label for="Unavailable"><span>Unavailable Only</span></label>
+                            <input type="radio" value="Unavailable" id="Unavailable" name="availability-filter" />
+                            <label for="Unavailable"><span>Unavailable Only</span></label>
                         </div>
                     </form>
                 </div>
@@ -122,51 +127,50 @@
                     <div class="filter-section-title">Using Blood Group</div>
                     <form class="filter-section-body two-row bloodgroup-filter">
                         <div class="customCheckbox">
-                          <input type="checkbox" value="A+ve" id="A+ve" name="bloodgroup-filter"/>
-                          <label for="A+ve"><span>A+ve</span></label>
+                            <input type="checkbox" value="A+ve" id="A+ve" name="bloodgroup-filter" />
+                            <label for="A+ve"><span>A+ve</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="checkbox" value="B+ve" id="B+ve" name="bloodgroup-filter"/>
-                          <label for="B+ve"><span>B+ve</span></label>
+                            <input type="checkbox" value="B+ve" id="B+ve" name="bloodgroup-filter" />
+                            <label for="B+ve"><span>B+ve</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="checkbox" value="O+ve" id="O+ve" name="bloodgroup-filter"/>
-                          <label for="O+ve"><span>O+ve</span></label>
+                            <input type="checkbox" value="O+ve" id="O+ve" name="bloodgroup-filter" />
+                            <label for="O+ve"><span>O+ve</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="checkbox" value="AB+ve" id="AB+ve" name="bloodgroup-filter"/>
-                          <label for="AB+ve"><span>AB+ve</span></label>
+                            <input type="checkbox" value="AB+ve" id="AB+ve" name="bloodgroup-filter" />
+                            <label for="AB+ve"><span>AB+ve</span></label>
                         </div>
                     </form>
                     <form class="filter-section-body two-row bloodgroup-filter">
                         <div class="customCheckbox">
-                          <input type="checkbox" value="A-ve" id="A-ve" name="bloodgroup-filter"/>
-                          <label for="A-ve"><span>A-ve</span></label>
+                            <input type="checkbox" value="A-ve" id="A-ve" name="bloodgroup-filter" />
+                            <label for="A-ve"><span>A-ve</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="checkbox" value="B-ve" id="B-ve" name="bloodgroup-filter"/>
-                          <label for="B-ve"><span>B-ve</span></label>
+                            <input type="checkbox" value="B-ve" id="B-ve" name="bloodgroup-filter" />
+                            <label for="B-ve"><span>B-ve</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="checkbox" value="O-ve" id="O-ve" name="bloodgroup-filter"/>
-                          <label for="O-ve"><span>O-ve</span></label>
+                            <input type="checkbox" value="O-ve" id="O-ve" name="bloodgroup-filter" />
+                            <label for="O-ve"><span>O-ve</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="checkbox" value="AB-ve" id="AB-ve" name="bloodgroup-filter"/>
-                          <label for="AB-ve"><span>AB-ve</span></label>
+                            <input type="checkbox" value="AB-ve" id="AB-ve" name="bloodgroup-filter" />
+                            <label for="AB-ve"><span>AB-ve</span></label>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-              <div class="act-buttons">
-                <button class="btn-clear" id="filterClearbtn">Clear</button>
-                <button class="btn-clear" id="filterbtn">Filter</button>
-              </div>
+                <div class="act-buttons">
+                    <button class="btn-clear" id="filterClearbtn">Clear</button>
+                    <button class="btn-clear" id="filterbtn">Filter</button>
+                </div>
             </div>
         </div>
     </div>
-
     <!-- The Sort Modal -->
     <div id="sortModal" class="modal">
         <!-- Modal content -->
@@ -181,29 +185,28 @@
                 <div class="filter-section">
                     <form class="filter-section-body" id="sorting-section">
                         <div class="customCheckbox">
-                          <input type="radio" value="Availablity" id="Availablity" name="sorting-section"/>
-                          <label for="Availablity"><span>By Availablity</span></label>
+                            <input type="radio" value="Availablity" id="Availablity" name="sorting-section" />
+                            <label for="Availablity"><span>By Availablity</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="radio" value="Ascending" id="Ascending" name="sorting-section"/>
-                          <label for="Ascending"><span>A - Z</span></label>
+                            <input type="radio" value="Ascending" id="Ascending" name="sorting-section" />
+                            <label for="Ascending"><span>A - Z</span></label>
                         </div>
                         <div class="customCheckbox">
-                          <input type="radio" value="Decending" id="Decending" name="sorting-section"/>
-                          <label for="Decending"><span>Z - A</span></label>
+                            <input type="radio" value="Decending" id="Decending" name="sorting-section" />
+                            <label for="Decending"><span>Z - A</span></label>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-              <div class="act-buttons">
-                <button class="btn-clear" id="sortClearbtn">Reset</button>
-                <button class="btn-clear" id="sortbtn">Sort</button>
-              </div>
+                <div class="act-buttons">
+                    <button class="btn-clear" id="sortClearbtn">Reset</button>
+                    <button class="btn-clear" id="sortbtn">Sort</button>
+                </div>
             </div>
         </div>
     </div>
-
     <!-- Uncomment the line below when ready to test with fake data -->
     <script src="scripts/idb.js" async></script>
     <script src="scripts/app.js" async></script>

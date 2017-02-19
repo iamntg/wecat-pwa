@@ -749,6 +749,7 @@ body {
     animation-fill-mode: forwards;
     -webkit-animation: flipper 0.7s;
     -webkit-animation-fill-mode: forwards;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);
 }
 
 .wecat-emp-card.collapsed-card .emp-designation,
@@ -804,6 +805,7 @@ body {
 
 .wecat-emp-card.collapsed-card .detail-container .remaining-days {
     vertical-align: sub;
+    padding-left: 6px;
 }
 
 @keyframes availability-key {
@@ -825,17 +827,6 @@ body {
     100% {
         width: 18px;
         height: 18px;
-    }
-}
-
-@keyframes colapsed-card-anime {
-    0% {
-        width: 0;
-        height: 0px;
-    }
-    100% {
-        width: inherit;
-        height: inherit;
     }
 }
 
@@ -942,6 +933,108 @@ body {
 .footer-btns button:hover {
     background: #b9dbe2;
     text-decoration: none;
+}
+
+
+.mbm {
+  margin-bottom: 10px;
+}
+
+._4-u2 {
+  background: #fff;
+}
+
+._2iwq {
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeHolderShimmer;
+  -webkit-animation-timing-function: linear;
+  background: #f6f7f8;
+  background-image: -webkit-gradient(linear, left center, right center, from(#f6f7f8), color-stop(.2, #edeef1), color-stop(.4, #f6f7f8), to(#f6f7f8));
+  background-image: -webkit-linear-gradient(left, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  background-size: 800px 104px;
+      height: 60px;
+  position: relative;
+}
+
+._2rtk ._2iwq {
+  -webkit-animation-name: prideShimmer;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(deg), color-stop(0, red), color-stop(.15, orange), color-stop(.3, yellow), color-stop(.45, green), color-stop(.6, blue), color-stop(.75, indigo), color-stop(.8, violet), to(red));
+  background-image: -webkit-linear-gradient(135deg, red 0%, orange 15%, yellow 30%, green 45%, blue 60%,indigo 75%, violet 80%, red 100%);
+  background-repeat: repeat;
+  background-size: 50% auto;
+}
+
+.direction_rtl ._2iwq {
+  -webkit-animation-direction: reverse;
+}
+
+._2iwq div {
+  background: #fff;
+  height: 6px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+div._2iwr {
+      height: 60px;
+    left: 64px;
+    right: auto;
+    top: 0;
+    width: 16px;
+}
+
+div._2iws {
+  height: 4px;
+    left: 80px;
+    top: 0;
+}
+
+div._2iwu {
+      height: 16px;
+    left: 80px;
+    top: 14px;
+}
+
+div._2iwv {
+      left: 200px;
+    top: 30px;
+    height: 10px;
+}
+
+div._2iww {
+  height: 24px;
+    left: 80px;
+    top: 38px;
+}
+
+div._2iwx {
+  height: 20px;
+  top: 40px;
+}
+
+
+@-webkit-keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@-webkit-keyframes prideShimmer {
+  from {
+    background-position: top left;
+  }
+
+  to {
+    background-position: top right;
+  }
 }
 
 
