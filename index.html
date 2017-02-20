@@ -17,17 +17,41 @@
     <meta name="apple-mobile-web-app-title" content="WeCAT">
     <link rel="apple-touch-icon" href="images/icons/icon-152x152.png">
     <meta name="msapplication-TileImage" content="images/icons/icon-144x144.png">
-    <meta name="msapplication-TileColor" content="#2F3BA2">
+    <meta name="msapplication-TileColor" content="#005265">
 </head>
 
 <body>
+    <!-- Top bar of the app -->
     <header class="header">
+        <span class="header__icon">
+        <svg class="menu__icon no--select" width="24px" height="24px" viewBox="0 0 48 48" fill="#fff">
+          <path d="M6 36h36v-4H6v4zm0-10h36v-4H6v4zm0-14v4h36v-4H6z"></path>
+        </svg>
+      </span>
         <div class="logo_name">
             <img src="images/icons/icon-256x256.png">
             <h1 class="header__title">WeCAT</h1>
         </div>
     </header>
-    <main class="main">
+    <!-- Side Menu -->
+    <div class="menu">
+        <div class="menu__header"></div>
+        <ul class="menu__list">
+            <li>
+                <a id="goToDonorsList"> <img src="images/donor-list.svg"> <span>Donors List</span></a>
+            </li>
+            <li>
+                <a id="goToNewsFeed"> <img src="images/news-feed.svg"> <span>Wecat Feed</span></a>
+            </li>
+            <li>
+                <a id="goToWecatMembers"> <img src="images/members.svg"> <span>Wecat Members</span></a>
+            </li>
+        </ul>
+        <div class="app_version">version 1.0</div>
+    </div>
+    <div class="menu__overlay"></div>
+    <!-- Donor List page -->
+    <main class="main page_content donors_list_page">
         <div class="wecat-emp-card collapsed-card _4-u2 mbm _2iwp" hidden>
             <div class="_2iwq">
                 <div class="_2iwr"></div>
@@ -55,7 +79,7 @@
                 <div class="main-details">
                     <div class="blood-group"><span class="bld-group1">AB</span><sup class="bld-group2">-ve</sup></div>
                     <div class="contact">
-                        <div class="phone-no">+91 77364 26577</div>
+                        <a href="tel:+917736426577" class="phone-no">+91 77364 26577</a>
                     </div>
                 </div>
                 <div class="last-donated"><small>Last Donated: </small> <span class="don-date">12-Aug-2016</span></div>
@@ -88,19 +112,36 @@
             </div>
         </div>
     </main>
-    <footer>
+    <footer class="page_content donors_list_page">
         <div class="footer-btns">
             <button id="filterModalBtn"><img src="images/filter-icon.svg">Filter</button>
             <button id="SortModalBtn"><img src="images/sort-icon.svg">Sort</button>
         </div>
     </footer>
+    <!-- News feed page -->
+    <div class="page_content wecat_feed_page" hidden>
+        <div class="card wecat-emp-card collapsed-card">
+            <p> We will update this soon </p>
+            <img src="images/soon.jpg" class="soon-img">
+        </div>
+    </div>
+    <!-- News feed page -->
+    <div class="page_content wecat_members_page" hidden>
+        <div class="member_heading">Team WeCAT</div>
+        <div class="card wecat-emp-card collapsed-card">
+            NTG
+        </div>
+        <div class="card wecat-emp-card collapsed-card">
+            Joel
+        </div>
+    </div>
     <div class="loader">
         <svg viewBox="0 0 32 32" width="32" height="32">
             <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
         </svg>
     </div>
     <!-- The Filter Modal -->
-    <div id="filterModal" class="modal">
+    <div id="filterModal" class="modal page_content">
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
@@ -172,7 +213,7 @@
         </div>
     </div>
     <!-- The Sort Modal -->
-    <div id="sortModal" class="modal">
+    <div id="sortModal" class="modal page_content">
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
@@ -210,6 +251,7 @@
     <!-- Uncomment the line below when ready to test with fake data -->
     <script src="scripts/idb.js" async></script>
     <script src="scripts/app.js" async></script>
+    <script src="scripts/menu.js" async></script>
 </body>
 
 </html>

@@ -9,7 +9,7 @@
 
     var app = {
         isLoading: true,
-        baseUrl: baseUrlConfig.staging,
+        baseUrl: baseUrlConfig.development,
         visibleCards: {},
         currentUserList: [],
         spinner: document.querySelector('.loader'),
@@ -176,9 +176,9 @@
 
     function toggleCardLayout(event) {
         var classList = ''
-        if(event.target.classList.value.includes("wecat-emp-card")) {
+        if (event.target.classList.value.includes("wecat-emp-card")) {
             classList = event.target.classList;
-        } else if(event.target.offsetParent.classList.value.includes("wecat-emp-card")) {
+        } else if (event.target.offsetParent.classList.value.includes("wecat-emp-card")) {
             classList = event.target.offsetParent.classList;
         }
         if (classList.value.includes("collapsed-card")) {
