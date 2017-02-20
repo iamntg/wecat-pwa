@@ -9,7 +9,7 @@
 
     var app = {
         isLoading: true,
-        baseUrl: baseUrlConfig.development,
+        baseUrl: baseUrlConfig.staging,
         visibleCards: {},
         currentUserList: [],
         spinner: document.querySelector('.loader'),
