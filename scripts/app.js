@@ -3,7 +3,7 @@
 
     var baseUrlConfig = {
         "development": 'http://localhost:1337/',
-        "staging": 'http://wecat.herokuapp.com/',
+        "staging": 'https://wecat.herokuapp.com/',
         "production": 'http://localhost:1337/'
     }
 
