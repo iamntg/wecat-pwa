@@ -952,6 +952,63 @@ li {
     padding-left: 6px;
 }
 
+.wecat-emp-card.member-card {
+    margin: 10px auto;
+    animation: flipper 0.7s;
+    animation-fill-mode: forwards;
+    -webkit-animation: flipper 0.7s;
+    -webkit-animation-fill-mode: forwards;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);
+}
+
+.wecat-emp-card.member-card .avatar-container {
+    width: 20%;
+}
+
+.wecat-emp-card.member-card .detail-container {
+    width: 78%;
+    padding-top: 3%;
+    padding-left: 3%;
+}
+
+.wecat-emp-card.member-card .emp-name {
+    font-size: 18px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: -12px;
+}
+
+.wecat-emp-card.member-card .phone-no {
+    font-size: 60%;
+    padding: 4px 16px;
+    background-color: #004a5b;
+    color: #fff;
+    text-align: center;
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.wecat-emp-card.member-card .detail-container .emp-email {
+        font-size: 60%;
+    color: #2f2f2f;
+    font-family: 'open_sans_semibold';
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 2px 0px;
+}
+
+.wecat-emp-card.member-card .chairman,
+.wecat-emp-card.member-card .accountant{
+               width: 5%;
+    right: 8px;
+    position: absolute;
+    top: 14px;
+}
+
 @keyframes availability-key {
     0% {
         width: 0;

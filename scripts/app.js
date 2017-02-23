@@ -9,7 +9,7 @@
 
     var app = {
         isLoading: true,
-        baseUrl: baseUrlConfig.staging,
+        baseUrl: baseUrlConfig.development,
         visibleCards: {},
         currentUserList: [],
         spinner: document.querySelector('.loader'),
@@ -111,7 +111,8 @@
         }
         cardLastUpdatedElem.textContent = data.created;
 
-        card.querySelector('.availability').style.backgroundColor = (data.isAvailable) ? 'green' : 'red';
+        card.querySelector('.avatar-container .availability').style.backgroundColor = (data.isAvailable) ? 'green' : 'red';
+        // card.querySelector('.avatar-container .avatar').src = (data.image) ? data.image : 'images/default_avatar.png';
         card.querySelector('.detail-container .emp-name').textContent = data.name;
         card.querySelector('.detail-container .emp-designation strong').textContent = data.age + ' yrs';
         card.querySelector('.detail-container .emp-jobtitle').textContent = data.jobTitle;
@@ -123,6 +124,7 @@
             card.querySelector('.main-details .blood-group .bld-group2').textContent = bloodGroup2;
         }
         card.querySelector('.main-details .contact .phone-no').textContent = data.contact;
+        card.querySelector('.main-details .contact .phone-no').href = "tel:"+data.contact;
         var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var lastdonated = new Date(data.lastDonated);
         var lastdonDate = lastdonated.getUTCDate() + '-' + monthNames[lastdonated.getMonth()] + '-' + lastdonated.getFullYear();
