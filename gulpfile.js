@@ -29,3 +29,8 @@ gulp.task('watch', function () {
 gulp.task('serve', function (done) {
 	sequence('browser-sync', 'watch', done);
 });
+
+
+gulp.task('build', function(){
+
+});
