@@ -1001,8 +1001,8 @@ li {
     padding: 2px 0px;
 }
 
-.wecat-emp-card.member-card .chairman,
-.wecat-emp-card.member-card .accountant{
+.wecat-emp-card.member-card .chairman-indication,
+.wecat-emp-card.member-card .accountant-indication{
                width: 5%;
     right: 8px;
     position: absolute;

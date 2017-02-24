@@ -9,12 +9,16 @@
 
     var app = {
         isLoading: true,
-        baseUrl: baseUrlConfig.development,
+        baseUrl: baseUrlConfig.staging,
         visibleCards: {},
+        visibleMemberCards: {},
         currentUserList: [],
+        currentMemberList: [],
         spinner: document.querySelector('.loader'),
         cardTemplate: document.querySelector('.cardTemplate'),
+        membercardTemplate: document.querySelector('.membercardTemplate'),
         container: document.querySelector('.main'),
+        memberPageContainer: document.querySelector('.wecat_members_page'),
         addDialog: document.querySelector('.dialog-container'),
         filterArray: [],
         sortUsing: ''
@@ -124,7 +128,7 @@
             card.querySelector('.main-details .blood-group .bld-group2').textContent = bloodGroup2;
         }
         card.querySelector('.main-details .contact .phone-no').textContent = data.contact;
-        card.querySelector('.main-details .contact .phone-no').href = "tel:"+data.contact;
+        card.querySelector('.main-details .contact .phone-no').href = "tel:" + data.contact;
         var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var lastdonated = new Date(data.lastDonated);
         var lastdonDate = lastdonated.getUTCDate() + '-' + monthNames[lastdonated.getMonth()] + '-' + lastdonated.getFullYear();
@@ -142,6 +146,56 @@
         if (app.isLoading) {
             app.spinner.setAttribute('hidden', true);
             app.container.removeAttribute('hidden');
+            app.isLoading = false;
+        }
+    };
+
+
+    // Updates a member card with the latest member details. If the card
+    // doesn't already exist, it's cloned from the template.
+    app.updateMemberCard = function(data) {
+        var dataLastUpdated = new Date(data.createdAt);
+
+        var card = app.visibleMemberCards[data.id];
+        if (!card) {
+            card = app.membercardTemplate.cloneNode(true);
+            card.classList.remove('membercardTemplate');
+            card.removeAttribute('hidden');
+            app.memberPageContainer.appendChild(card);
+            app.visibleMemberCards[data.id] = card;
+        }
+
+        // Verifies the data provide is newer than what's already visible
+        // on the card, if it's not bail, if it is, continue and update the
+        // time saved in the card
+        var cardLastUpdatedElem = card.querySelector('.card-last-updated');
+        var cardLastUpdated = cardLastUpdatedElem.textContent;
+        if (cardLastUpdated) {
+            cardLastUpdated = new Date(cardLastUpdated);
+            // Bail if the card has more recent data then the data
+            if (dataLastUpdated.getTime() < cardLastUpdated.getTime()) {
+                return;
+            }
+        }
+        cardLastUpdatedElem.textContent = data.created;
+
+        // card.querySelector('.avatar-container .avatar').src = (data.image) ? data.image : 'images/default_avatar.png';
+        card.querySelector('.detail-container .emp-name').textContent = data.name;
+        card.querySelector('.detail-container .emp-email').textContent = data.workEmail;
+        card.querySelector('.detail-container .phone-no').textContent = data.contact;
+        card.querySelector('.detail-container .phone-no').href = "tel:" + data.contact;
+
+        if(data.wecatRole.toLowerCase() === 'chairman') {
+            card.querySelector('.chairman-indication').removeAttribute('hidden');
+        } else if(data.wecatRole.toLowerCase() === 'accountant') {
+            card.querySelector('.accountant-indication').removeAttribute('hidden');
+        }
+
+        console.log(data.name + " ---> " + getAge(data.dateOfBirth) + " ---> " + isAvailable(data.lastDonated));
+
+        if (app.isLoading) {
+            app.spinner.setAttribute('hidden', true);
+            app.memberPageContainer.removeAttribute('hidden');
             app.isLoading = false;
         }
     };
@@ -249,14 +303,71 @@
         };
         request.open('GET', url);
         request.send();
-        // addClickEventToCards();
     };
 
 
-    // TODO add saveSelectedUsers function here
+    /*
+     * Gets users blood donating details and updates the card with the data.
+     * getWecatMembers() first checks if the wecat data is in the cache. If so,
+     * then it gets that data and populates the card with the cached data.
+     * Then, getWecatMembers() goes to the network for fresh data. If the network
+     * request goes through, then the card gets updated a second time with the
+     * freshest data.
+     */
+    app.getWecatMembers = function() {
+        var url = app.baseUrl + 'users/getWecatMembers';
+        if ('caches' in window) {
+            caches.match(url).then(function(response) {
+                if (response) {
+                    console.log('response', response);
+                    response.json().then(function updateFromCache(json) {
+                        console.log('json', json);
+                        var results = json.query.results;
+                        for (var inc = 0; inc < results.length; inc++) {
+                            app.updateMemberCard(results[inc]);
+                        }
+                    });
+                }
+            });
+        }
+        // Fetch the latest data.
+        var request = new XMLHttpRequest();
+        console.log('request', request);
+        request.onreadystatechange = function() {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status === 200) {
+                    var response = JSON.parse(request.response);
+                    console.log(response);
+                    // idbKeyval.set('userlist', response);
+                    app.currentMemberList = response;
+                    app.saveSelectedMembers();
+                    for (var inc = 0; inc < response.length; inc++) {
+                        app.updateMemberCard(response[inc]);
+                    }
+
+                } else {
+                    // Return the initial weather forecast since no data is available.
+                    if (!app.currentMemberList.length) {
+                        app.updateMemberCard(initialUserData);
+                    }
+                }
+            } else {
+                console.log('request not completed!!');
+            }
+        };
+        request.open('GET', url);
+        request.send();
+    };
+
+
     // Save list of users to indexeddb.
     app.saveSelectedUsers = function() {
         idbKeyval.set('userlist', app.currentUserList);
+    };
+
+    // Save list of users to indexeddb.
+    app.saveSelectedMembers = function() {
+        idbKeyval.set('memberlist', app.currentMemberList);
     };
 
     /*
@@ -306,6 +417,30 @@
         }
         app.getUsers();
     });
+
+
+
+
+    var goToWecatMembers = document.getElementById('goToWecatMembers');
+
+    goToWecatMembers.addEventListener('click', function() {
+        idbKeyval.get('memberlist').then(function(value) {
+            console.log(value);
+            app.currentMemberList = value;
+            if (app.currentMemberList) {
+                app.currentMemberList.forEach(function(user) {
+                    app.updateMemberCard(user);
+                });
+            } else {
+                /* The user is using the app for the first time.
+                 */
+                app.updateMemberCard(initialUserData);
+                app.currentMemberList = [initialUserData];
+                app.saveSelectedMembers();
+            }
+            app.getWecatMembers();
+        });
+    }, false);
 
 
     // Get the filter modal

@@ -1,0 +1,31 @@
+{
+  "name": "wecat-pwa",
+  "version": "1.0.0",
+  "description": "progressive web app for blood donors details at triassic solutions pvt ltd",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamntg/wecat-pwa.git"
+  },
+  "keywords": [
+    "wecat",
+    "pwa",
+    "progressive",
+    "web",
+    "apps"
+  ],
+  "author": "Nitheesh T Ganesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamntg/wecat-pwa/issues"
+  },
+  "homepage": "https://github.com/iamntg/wecat-pwa#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.8",
+    "gulp": "^3.9.1",
+    "run-sequence": "^1.2.2"
+  }
+}
