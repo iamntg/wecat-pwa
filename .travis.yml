@@ -6,3 +6,7 @@ node_js:
 install:
   - rm -fr node_modules
   - npm install
+  - npm install -g gulp
+
+script:
+  - gulp build
