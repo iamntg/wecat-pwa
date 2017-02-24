@@ -1,18 +1,8 @@
+sudo: false
+
 language: node_js
 node_js:
-  - "5.1.1"
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-4.8
-    - openjdk-7-jdk
-    - lib32stdc++6
-    - lib32z1
-env:
-  CXX=g++-4.8
-
+  - "5"
 install:
   - rm -fr node_modules
   - npm install
