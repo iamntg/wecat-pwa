@@ -992,7 +992,7 @@ li {
 }
 
 .wecat-emp-card.member-card .detail-container .emp-email {
-        font-size: 60%;
+    font-size: 60%;
     color: #2f2f2f;
     font-family: 'open_sans_semibold';
     white-space: nowrap;
@@ -1002,8 +1002,8 @@ li {
 }
 
 .wecat-emp-card.member-card .chairman-indication,
-.wecat-emp-card.member-card .accountant-indication{
-               width: 5%;
+.wecat-emp-card.member-card .accountant-indication {
+    width: 5%;
     right: 8px;
     position: absolute;
     top: 14px;
@@ -1136,8 +1136,18 @@ li {
     text-decoration: none;
 }
 
-.wecat_feed_page {
-    margin-top: 70px;
+.wecat_feed_page,
+.wecat_members_page,
+.wecat_medikit_page {
+    padding-top: 60px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-top: 5px;
 }
 
 .wecat_feed_page p {
@@ -1149,10 +1159,6 @@ li {
     margin-top: 10px;
 }
 
-.wecat_members_page {
-    margin-top: 70px;
-}
-
 .wecat_members_page .member_heading {
     width: 100%;
     text-align: center;
@@ -1160,6 +1166,92 @@ li {
     font-size: 18px;
     padding-bottom: 6px;
     font-weight: bold;
+}
+
+.wecat_medikit_page .medikit_heading {
+    width: 100%;
+    text-align: center;
+    font-family: 'bree_serif';
+    font-size: 18px;
+    padding-bottom: 6px;
+    font-weight: bold;
+}
+
+.wecat-emp-card.medicine-card {
+    margin: 10px auto;
+    animation: flipper 0.7s;
+    animation-fill-mode: forwards;
+    -webkit-animation: flipper 0.7s;
+    -webkit-animation-fill-mode: forwards;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.25);
+}
+
+.wecat-emp-card.medicine-card .avatar-container {
+    width: 20%;
+}
+
+.wecat-emp-card.medicine-card .detail-container {
+    width: 78%;
+    padding-top: 3%;
+    padding-left: 3%;
+}
+
+.wecat-emp-card.medicine-card .emp-name {
+    font-size: 17px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: -18px;
+}
+
+.wecat-emp-card.medicine-card .phone-no {
+    font-size: 60%;
+    padding: 4px 16px;
+    background-color: #004a5b;
+    color: #fff;
+    text-align: center;
+    border-radius: 20px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.wecat-emp-card.medicine-card .detail-container .medicine-dates {
+    padding: 3px 0px;
+}
+
+.wecat-emp-card.medicine-card .detail-container .medicine-dates .purchase-date,
+.wecat-emp-card.medicine-card .detail-container .medicine-dates .expiry-date {
+    font-family: 'open_sans_regular';
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 72%;
+    color: #666;
+}
+
+.wecat-emp-card.medicine-card .avatar-container .avatar {
+    max-width: 50%;
+    border-radius: 0px;
+}
+
+.wecat-emp-card.medicine-card .medicine-count {
+    position: absolute;
+    right: 16px;
+    font-size: 11px;
+    top: 12px;
+    color: #666;
+}
+
+.wecat-emp-card.medicine-card .detail-container .description {
+    font-family: 'open_sans_regular';
+    font-size: 74%;
+    color: #666;
+}
+
+.wecat-emp-card.medicine-card.expired {
+    background: #ececec;
+    color: rgba(56, 56, 56, 0.36) !important;
 }
 
 .mbm {

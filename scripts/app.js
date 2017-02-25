@@ -4,7 +4,7 @@
     var baseUrlConfig = {
         "development": 'http://localhost:1337/',
         "staging": 'https://wecat.herokuapp.com/',
-        "production": 'http://localhost:1337/'
+        "production": 'https://wecat.herokuapp.com/'
     }
 
     var app = {
@@ -12,17 +12,23 @@
         baseUrl: baseUrlConfig.staging,
         visibleCards: {},
         visibleMemberCards: {},
+        visibleMedicineCards: {},
         currentUserList: [],
         currentMemberList: [],
+        currentMedicineList: [],
         spinner: document.querySelector('.loader'),
         cardTemplate: document.querySelector('.cardTemplate'),
         membercardTemplate: document.querySelector('.membercardTemplate'),
+        medicinecardTemplate: document.querySelector('.medicinecardTemplate'),
         container: document.querySelector('.main'),
         memberPageContainer: document.querySelector('.wecat_members_page'),
+        medikitPageContainer: document.querySelector('.wecat_medikit_page'),
         addDialog: document.querySelector('.dialog-container'),
         filterArray: [],
         sortUsing: ''
     };
+
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     const dbPromise = idb.open('keyval-store', 1, upgradeDB => {
         upgradeDB.createObjectStore('keyval');
@@ -118,8 +124,8 @@
         card.querySelector('.avatar-container .availability').style.backgroundColor = (data.isAvailable) ? 'green' : 'red';
         // card.querySelector('.avatar-container .avatar').src = (data.image) ? data.image : 'images/default_avatar.png';
         card.querySelector('.detail-container .emp-name').textContent = data.name;
-        card.querySelector('.detail-container .emp-designation strong').textContent = data.age + ' yrs';
-        card.querySelector('.detail-container .emp-jobtitle').textContent = data.jobTitle;
+        /*card.querySelector('.detail-container .emp-designation strong').textContent = data.age + ' yrs';
+        card.querySelector('.detail-container .emp-jobtitle').textContent = data.jobTitle;*/
         card.querySelector('.detail-container .emp-email').textContent = data.workEmail;
         if (data.bloodGroup) {
             var bloodGroup1 = data.bloodGroup.substring(0, (data.bloodGroup.length - 3));
@@ -129,7 +135,7 @@
         }
         card.querySelector('.main-details .contact .phone-no').textContent = data.contact;
         card.querySelector('.main-details .contact .phone-no').href = "tel:" + data.contact;
-        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
         var lastdonated = new Date(data.lastDonated);
         var lastdonDate = lastdonated.getUTCDate() + '-' + monthNames[lastdonated.getMonth()] + '-' + lastdonated.getFullYear();
         card.querySelector('.last-donated .don-date').textContent = lastdonDate;
@@ -185,10 +191,12 @@
         card.querySelector('.detail-container .phone-no').textContent = data.contact;
         card.querySelector('.detail-container .phone-no').href = "tel:" + data.contact;
 
-        if(data.wecatRole.toLowerCase() === 'chairman') {
-            card.querySelector('.chairman-indication').removeAttribute('hidden');
-        } else if(data.wecatRole.toLowerCase() === 'accountant') {
-            card.querySelector('.accountant-indication').removeAttribute('hidden');
+        if (data.wecatRole) {
+            if (data.wecatRole.toLowerCase() === 'chairman') {
+                card.querySelector('.chairman-indication').removeAttribute('hidden');
+            } else if (data.wecatRole.toLowerCase() === 'accountant') {
+                card.querySelector('.accountant-indication').removeAttribute('hidden');
+            }
         }
 
         console.log(data.name + " ---> " + getAge(data.dateOfBirth) + " ---> " + isAvailable(data.lastDonated));
@@ -196,6 +204,55 @@
         if (app.isLoading) {
             app.spinner.setAttribute('hidden', true);
             app.memberPageContainer.removeAttribute('hidden');
+            app.isLoading = false;
+        }
+    };
+
+
+    // Updates a medicine card with the latest medikit details. If the card
+    // doesn't already exist, it's cloned from the template.
+    app.updateMedicineCard = function(data) {
+        var dataLastUpdated = new Date(data.createdAt);
+
+        var card = app.visibleMedicineCards[data.id];
+        if (!card) {
+            card = app.medicinecardTemplate.cloneNode(true);
+            card.classList.remove('medicinecardTemplate');
+            card.removeAttribute('hidden');
+            app.medikitPageContainer.appendChild(card);
+            app.visibleMedicineCards[data.id] = card;
+        }
+
+        // Verifies the data provide is newer than what's already visible
+        // on the card, if it's not bail, if it is, continue and update the
+        // time saved in the card
+        var cardLastUpdatedElem = card.querySelector('.card-last-updated');
+        var cardLastUpdated = cardLastUpdatedElem.textContent;
+        if (cardLastUpdated) {
+            cardLastUpdated = new Date(cardLastUpdated);
+            // Bail if the card has more recent data then the data
+            if (dataLastUpdated.getTime() < cardLastUpdated.getTime()) {
+                return;
+            }
+        }
+        cardLastUpdatedElem.textContent = data.created;
+
+        card.querySelector('.detail-container .emp-name').textContent = data.name;
+        card.querySelector('.detail-container .description').textContent = data.description;
+        card.querySelector('.medicine-count').textContent = data.count;
+
+        var expiryDate = new Date(data.expiryDate);
+        var expiry = expiryDate.getUTCDate() + '-' + monthNames[expiryDate.getMonth()] + '-' + expiryDate.getFullYear();
+        card.querySelector('.detail-container .expiry-date strong').textContent = expiry;
+
+        if (data.isExpired) {
+            card.classList.add("expired");
+            card.querySelector('.detail-container .expiry-date small').textContent = "Expired on: ";
+        }
+
+        if (app.isLoading) {
+            app.spinner.setAttribute('hidden', true);
+            app.medikitPageContainer.removeAttribute('hidden');
             app.isLoading = false;
         }
     };
@@ -360,14 +417,73 @@
     };
 
 
+    /*
+     * Gets medicine details and updates the card with the data.
+     * getMedikitList() first checks if the wecat data is in the cache. If so,
+     * then it gets that data and populates the card with the cached data.
+     * Then, getMedikitList() goes to the network for fresh data. If the network
+     * request goes through, then the card gets updated a second time with the
+     * freshest data.
+     */
+    app.getMedikitList = function() {
+        var url = app.baseUrl + 'medicine/getAll';
+        if ('caches' in window) {
+            caches.match(url).then(function(response) {
+                if (response) {
+                    console.log('response', response);
+                    response.json().then(function updateFromCache(json) {
+                        console.log('json', json);
+                        var results = json.query.results;
+                        for (var inc = 0; inc < results.length; inc++) {
+                            app.updateMedicineCard(results[inc]);
+                        }
+                    });
+                }
+            });
+        }
+        // Fetch the latest data.
+        var request = new XMLHttpRequest();
+        console.log('request', request);
+        request.onreadystatechange = function() {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                if (request.status === 200) {
+                    var response = JSON.parse(request.response);
+                    console.log(response);
+                    // idbKeyval.set('userlist', response);
+                    app.currentMedicineList = response;
+                    app.saveSelectedMedicines();
+                    for (var inc = 0; inc < response.length; inc++) {
+                        app.updateMedicineCard(response[inc]);
+                    }
+
+                } else {
+                    // Return the initial weather forecast since no data is available.
+                    if (!app.currentMedicineList.length) {
+                        app.updateMedicineCard(initialUserData);
+                    }
+                }
+            } else {
+                console.log('request not completed!!');
+            }
+        };
+        request.open('GET', url);
+        request.send();
+    };
+
+
     // Save list of users to indexeddb.
     app.saveSelectedUsers = function() {
         idbKeyval.set('userlist', app.currentUserList);
     };
 
-    // Save list of users to indexeddb.
+    // Save list of members to indexeddb.
     app.saveSelectedMembers = function() {
         idbKeyval.set('memberlist', app.currentMemberList);
+    };
+
+    // Save list of medicines to indexeddb.
+    app.saveSelectedMedicines = function() {
+        idbKeyval.set('medicinelist', app.currentMedicineList);
     };
 
     /*
@@ -377,7 +493,7 @@
             name: "I am NTG",
             personalEmail: "iamntg@gmail.com",
             workEmail: "nitheesh.ganesh@triassicsolutions.com",
-            contact: "+91 7403443441",
+            contact: "+91 74034 43441",
             bloodGroup: "O+ve",
             age: 23,
             address: "Kerala Nagar, House No: 20, Anayara P.O., Trivandrum",
@@ -419,9 +535,8 @@
     });
 
 
-
-
     var goToWecatMembers = document.getElementById('goToWecatMembers');
+    var goToWecatMedikit = document.getElementById('goToWecatMedikit');
 
     goToWecatMembers.addEventListener('click', function() {
         idbKeyval.get('memberlist').then(function(value) {
@@ -439,6 +554,25 @@
                 app.saveSelectedMembers();
             }
             app.getWecatMembers();
+        });
+    }, false);
+
+    goToWecatMedikit.addEventListener('click', function() {
+        idbKeyval.get('medicinelist').then(function(value) {
+            console.log(value);
+            app.currentMedicineList = value;
+            if (app.currentMedicineList) {
+                app.currentMedicineList.forEach(function(user) {
+                    app.updateMedicineCard(user);
+                });
+            } else {
+                /* The user is using the app for the first time.
+                 */
+                app.updateMedicineCard(initialUserData);
+                app.currentMedicineList = [initialUserData];
+                app.saveSelectedMedicines();
+            }
+            app.getMedikitList();
         });
     }, false);
 

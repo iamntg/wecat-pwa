@@ -7,6 +7,7 @@
     var goToDonorsListBtn = document.getElementById('goToDonorsList');
     var goToNewsFeedBtn = document.getElementById('goToNewsFeed');
     var goToWecatMembers = document.getElementById('goToWecatMembers');
+    var goToWecatMedikit = document.getElementById('goToWecatMedikit');
 
     //Menu click event
     menuIconElement.addEventListener('click', showMenu, false);
@@ -15,6 +16,7 @@
     goToDonorsListBtn.addEventListener('click', goToPage, false);
     goToNewsFeedBtn.addEventListener('click', goToPage, false);
     goToWecatMembers.addEventListener('click', goToPage, false);
+    goToWecatMedikit.addEventListener('click', goToPage, false);
 
     //To show menu
     function showMenu() {
@@ -80,6 +82,12 @@
                 break;
             case 'goToWecatMembers':
                 elements = document.getElementsByClassName('wecat_members_page');
+                for (var inc = 0; inc < elements.length; inc++) {
+                    elements[inc].removeAttribute('hidden');
+                }
+                break;
+            case 'goToWecatMedikit':
+                elements = document.getElementsByClassName('wecat_medikit_page');
                 for (var inc = 0; inc < elements.length; inc++) {
                     elements[inc].removeAttribute('hidden');
                 }
