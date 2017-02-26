@@ -379,7 +379,7 @@
                     console.log('response', response);
                     response.json().then(function updateFromCache(json) {
                         console.log('json', json);
-                        var results = json.query.results;
+                        var results = json;
                         for (var inc = 0; inc < results.length; inc++) {
                             app.updateMemberCard(results[inc]);
                         }
@@ -434,7 +434,7 @@
                     console.log('response', response);
                     response.json().then(function updateFromCache(json) {
                         console.log('json', json);
-                        var results = json.query.results;
+                        var results = json;
                         for (var inc = 0; inc < results.length; inc++) {
                             app.updateMedicineCard(results[inc]);
                         }

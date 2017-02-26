@@ -1,5 +1,5 @@
-var dataCacheName = 'wecatData-v2';
-var cacheName = 'wecatPWA-alpha-2';
+var dataCacheName = 'wecatData-v3';
+var cacheName = 'wecatPWA-alpha-3';
 var filesToCache = [
     '/',
     '/index.html',
