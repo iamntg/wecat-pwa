@@ -55,7 +55,7 @@
     <div class="menu__overlay"></div>
     <!-- Donor List page -->
     <main class="main page_content donors_list_page">
-        <div class="wecat-emp-card collapsed-card _4-u2 mbm _2iwp" hidden>
+        <div class="wecat-emp-card collapsed-card _4-u2 mbm _2iwp emp-skelton" hidden>
             <div class="_2iwq">
                 <div class="_2iwr"></div>
                 <div class="_2iws"></div>
@@ -89,31 +89,6 @@
                 <div class="remaining-days">(<strong class="rem-days">51</strong> days ago)</div>
             </div>
         </div>
-        <div class="card wecat-emp-card collapsed-card" hidden>
-            <div class="card-key" hidden></div>
-            <div class="card-last-updated" hidden></div>
-            <div class="avatar-container">
-                <img class="avatar" src="images/default_avatar.png">
-                <div class="availability"></div>
-            </div>
-            <div class="detail-container">
-                <div class="emp-name">Nitheesh T Ganesh</div>
-                <div class="emp-designation">
-                    <strong>23 yrs</strong>, <span class="emp-jobtitle">CEO</span>
-                </div>
-                <div class="emp-email">
-                    nitheesh.ganesh@triassicsolutions.com
-                </div>
-                <div class="main-details">
-                    <div class="blood-group"><span class="bld-group1">AB</span><sup class="bld-group2">-ve</sup></div>
-                    <div class="contact">
-                        <div class="phone-no">+91 77364 26577</div>
-                    </div>
-                </div>
-                <div class="last-donated"><strong>Last Donated: </strong> <span class="don-date">12-Aug-2016</span></div>
-                <div class="remaining-days">(<strong class="rem-days">51</strong> days ago)</div>
-            </div>
-        </div>
     </main>
     <footer class="page_content donors_list_page">
         <div class="footer-btns">
@@ -124,13 +99,22 @@
     <!-- News feed page -->
     <div class="page_content wecat_feed_page" hidden>
         <div class="card wecat-emp-card collapsed-card">
-            <p> We will update this soon </p>
+            <p>-: We will update this soon :-</p>
             <img src="images/soon.jpg" class="soon-img">
         </div>
     </div>
     <!-- Members list page -->
     <div class="page_content wecat_members_page" hidden>
         <div class="member_heading">Team WeCAT</div>
+        <div class="wecat-emp-card collapsed-card _4-u2 mbm _2iwp member-skelton" hidden>
+            <div class="_2iwq">
+                <div class="_2iwr"></div>
+                <div class="_2iws"></div>
+                <div class="_2iwu"></div>
+                <div class="_2iwv"></div>
+                <div class="_2iww"></div>
+            </div>
+        </div>
         <div class="card membercardTemplate wecat-emp-card member-card" hidden>
             <div class="card-key" hidden></div>
             <div class="card-last-updated" hidden></div>
@@ -151,6 +135,15 @@
     <!-- Medikit Page -->
     <div class="page_content wecat_medikit_page" hidden>
         <div class="medikit_heading">WeCAT Medikit</div>
+        <div class="wecat-emp-card collapsed-card _4-u2 mbm _2iwp medicine-skelton" hidden>
+            <div class="_2iwq">
+                <div class="_2iwr"></div>
+                <div class="_2iws"></div>
+                <div class="_2iwu"></div>
+                <div class="_2iwv"></div>
+                <div class="_2iww"></div>
+            </div>
+        </div>
         <div class="card medicinecardTemplate wecat-emp-card medicine-card" hidden>
             <div class="card-key" hidden></div>
             <div class="card-last-updated" hidden></div>
@@ -171,7 +164,7 @@
     </div>
 
     <!-- loading indicator -->
-    <div class="loader">
+    <div class="loader" hidden>
         <svg viewBox="0 0 32 32" width="32" height="32">
             <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
         </svg>

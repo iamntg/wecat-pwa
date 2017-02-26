@@ -30,6 +30,9 @@
 
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
+    var goToWecatMembers = document.getElementById('goToWecatMembers');
+    var goToWecatMedikit = document.getElementById('goToWecatMedikit');
+
     const dbPromise = idb.open('keyval-store', 1, upgradeDB => {
         upgradeDB.createObjectStore('keyval');
     });
@@ -325,7 +328,7 @@
                     console.log('response', response);
                     response.json().then(function updateFromCache(json) {
                         console.log('json', json);
-                        var results = json.query.results;
+                        var results = json;
                         for (var inc = 0; inc < results.length; inc++) {
                             app.updateUserCard(results[inc]);
                         }
@@ -341,9 +344,9 @@
                 if (request.status === 200) {
                     var response = JSON.parse(request.response);
                     console.log(response);
-                    // idbKeyval.set('userlist', response);
                     app.currentUserList = response;
                     app.saveSelectedUsers();
+                    document.querySelector('.emp-skelton').setAttribute('hidden', true);
                     for (var inc = 0; inc < response.length; inc++) {
                         app.updateUserCard(response[inc]);
                     }
@@ -351,7 +354,8 @@
                 } else {
                     // Return the initial weather forecast since no data is available.
                     if (!app.currentUserList.length) {
-                        app.updateUserCard(initialUserData);
+                        // app.updateUserCard(initialUserData);
+                        document.querySelector('.emp-skelton').removeAttribute('hidden');
                     }
                 }
             } else {
@@ -395,9 +399,9 @@
                 if (request.status === 200) {
                     var response = JSON.parse(request.response);
                     console.log(response);
-                    // idbKeyval.set('userlist', response);
                     app.currentMemberList = response;
                     app.saveSelectedMembers();
+                    document.querySelector('.member-skelton').setAttribute('hidden', true);
                     for (var inc = 0; inc < response.length; inc++) {
                         app.updateMemberCard(response[inc]);
                     }
@@ -405,7 +409,8 @@
                 } else {
                     // Return the initial weather forecast since no data is available.
                     if (!app.currentMemberList.length) {
-                        app.updateMemberCard(initialUserData);
+                        // app.updateMemberCard(initialUserData);
+                        document.querySelector('.member-skelton').removeAttribute('hidden');
                     }
                 }
             } else {
@@ -449,9 +454,9 @@
                 if (request.status === 200) {
                     var response = JSON.parse(request.response);
                     console.log(response);
-                    // idbKeyval.set('userlist', response);
                     app.currentMedicineList = response;
                     app.saveSelectedMedicines();
+                    document.querySelector('.medicine-skelton').setAttribute('hidden', true);
                     for (var inc = 0; inc < response.length; inc++) {
                         app.updateMedicineCard(response[inc]);
                     }
@@ -459,7 +464,8 @@
                 } else {
                     // Return the initial weather forecast since no data is available.
                     if (!app.currentMedicineList.length) {
-                        app.updateMedicineCard(initialUserData);
+                        // app.updateMedicineCard(initialUserData);
+                        document.querySelector('.medicine-skelton').removeAttribute('hidden');
                     }
                 }
             } else {
@@ -521,61 +527,72 @@
         console.log(value);
         app.currentUserList = value;
         if (app.currentUserList) {
+            document.querySelector('.emp-skelton').setAttribute('hidden', true);
             app.currentUserList.forEach(function(user) {
                 app.updateUserCard(user);
             });
         } else {
             /* The user is using the app for the first time.
              */
-            app.updateUserCard(initialUserData);
+            document.querySelector('.emp-skelton').removeAttribute('hidden');
+            /*app.updateUserCard(initialUserData);
             app.currentUserList = [initialUserData];
-            app.saveSelectedUsers();
+            app.saveSelectedUsers();*/
         }
         app.getUsers();
     });
+    
 
-
-    var goToWecatMembers = document.getElementById('goToWecatMembers');
-    var goToWecatMedikit = document.getElementById('goToWecatMedikit');
-
+    /* for initiating the wecat members page */
     goToWecatMembers.addEventListener('click', function() {
         idbKeyval.get('memberlist').then(function(value) {
             console.log(value);
             app.currentMemberList = value;
             if (app.currentMemberList) {
+                document.querySelector('.member-skelton').setAttribute('hidden', true);
                 app.currentMemberList.forEach(function(user) {
                     app.updateMemberCard(user);
                 });
             } else {
                 /* The user is using the app for the first time.
                  */
-                app.updateMemberCard(initialUserData);
+                /*app.updateMemberCard(initialUserData);
                 app.currentMemberList = [initialUserData];
-                app.saveSelectedMembers();
+                app.saveSelectedMembers();*/
+                document.querySelector('.member-skelton').removeAttribute('hidden');
             }
             app.getWecatMembers();
         });
     }, false);
 
+    /* for initiating the wecat medikit page */
     goToWecatMedikit.addEventListener('click', function() {
         idbKeyval.get('medicinelist').then(function(value) {
             console.log(value);
             app.currentMedicineList = value;
             if (app.currentMedicineList) {
+                document.querySelector('.medicine-skelton').setAttribute('hidden', true);
                 app.currentMedicineList.forEach(function(user) {
                     app.updateMedicineCard(user);
                 });
             } else {
                 /* The user is using the app for the first time.
                  */
-                app.updateMedicineCard(initialUserData);
+                /*app.updateMedicineCard(initialUserData);
                 app.currentMedicineList = [initialUserData];
-                app.saveSelectedMedicines();
+                app.saveSelectedMedicines();*/
+                document.querySelector('.medicine-skelton').removeAttribute('hidden');
             }
             app.getMedikitList();
         });
     }, false);
 
+
+    /************************************************************************
+     *
+     * Code for handling the modal popups
+     *
+     ************************************************************************/
 
     // Get the filter modal
     var filterModal = document.getElementById('filterModal');
@@ -592,6 +609,14 @@
     // Get the <span> element that closes the modal
     var closeFilterModalBtn = document.getElementsByClassName("close-filterModal")[0];
     var closeSortModalBtn = document.getElementsByClassName("close-sortModal")[0];
+
+    var filterbtn = document.getElementById('filterbtn');
+    var sortbtn = document.getElementById('sortbtn');
+    var filterClearbtn = document.getElementById('filterClearbtn');
+    var sortClearbtn = document.getElementById('sortClearbtn');
+    var availabilityFilter = document.getElementById('availability-filter');
+    var bloodgroupFilter = document.getElementsByClassName('bloodgroup-filter');
+    var sortingSection = document.getElementById('sorting-section');
 
     // When the user clicks the button, open the modal 
     filterModalBtn.onclick = function() {
@@ -629,13 +654,7 @@
         }
     }
 
-    var filterbtn = document.getElementById('filterbtn');
-    var sortbtn = document.getElementById('sortbtn');
-    var filterClearbtn = document.getElementById('filterClearbtn');
-    var sortClearbtn = document.getElementById('sortClearbtn');
-    var availabilityFilter = document.getElementById('availability-filter');
-    var bloodgroupFilter = document.getElementsByClassName('bloodgroup-filter');
-    var sortingSection = document.getElementById('sorting-section');
+    
 
     //filter the list from modal by choosing the required checkboxes
     filterbtn.onclick = function() {
@@ -788,10 +807,10 @@
     }
 
 
-    // add service worker code here
-    /*if ('serviceWorker' in navigator) {
+    // For registering the service worker
+    if ('serviceWorker' in navigator) {
       navigator.serviceWorker
                .register('./service-worker.js')
                .then(function() { console.log('Service Worker Registered'); });
-    }*/
+    }
 })();
