@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="canonical" href="https://weather-pwa-sample.firebaseapp.com/final/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#005265">
     <title>WeCAT</title>
@@ -32,7 +31,7 @@
             <img src="images/icons/icon-256x256.png">
             <h1 class="header__title">WeCAT</h1>
         </div>
-    </header>  
+    </header>
     <!-- Side Menu -->
     <div class="menu">
         <div class="menu__header"></div>
@@ -162,7 +161,6 @@
             </div>
         </div>
     </div>
-
     <!-- loading indicator -->
     <div class="loader" hidden>
         <svg viewBox="0 0 32 32" width="32" height="32">
@@ -277,10 +275,28 @@
             </div>
         </div>
     </div>
-    <!-- Uncomment the line below when ready to test with fake data -->
-    <script src="scripts/idb.js" async></script>
-    <script src="scripts/app.js" async></script>
-    <script src="scripts/menu.js" async></script>
+
+
+    <!-- JS Files  -->
+    <script type="text/javascript">
+    //If serviceWorker supports, then register it.
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register('./service-worker.js', {
+                scope: "./"
+            }) //setting scope of sw
+            .then(function(registration) {
+                console.info('Service worker is registered!' , registration);
+            })
+            .catch(function(error) {
+                console.error('Service worker failed ', error);
+            });
+    }
+    </script>
+    
+    <script src="scripts/idb.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/menu.js"></script>
+    <script src="scripts/offline.js"></script>
 </body>
 
 </html>

@@ -1334,6 +1334,15 @@ div._2iwx {
     top: 40px;
 }
 
+
+.app_offline header{
+  background-color: #6b6b6b;
+}
+
+.app_offline .card{
+    background-color: #ececec !important;
+}
+
 @-webkit-keyframes placeHolderShimmer {
     0% {
         background-position: -468px 0;

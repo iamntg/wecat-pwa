@@ -1,11 +1,13 @@
-var dataCacheName = 'wecatData-v1';
-var cacheName = 'wecatPWA-alpha-1';
+var dataCacheName = 'wecatData-v2';
+var cacheName = 'wecatPWA-alpha-2';
 var filesToCache = [
     '/',
     '/index.html',
+    './manifest.json',
     '/scripts/app.js',
     '/scripts/idb.js',
     '/scripts/menu.js',
+    '/scripts/offline.js',
     '/scripts/idb-keyval-min.js',
     '/styles/inline.css',
     '/styles/fonts/BreeSerif-Regular.otf',
@@ -39,23 +41,37 @@ var filesToCache = [
     '/images/sort-icon.svg'
 ];
 
+/*
+  INSTALL EVENT: Adding `install` event listener.
+*/
+
 self.addEventListener('install', function(e) {
-    console.log('[ServiceWorker] Install');
+    console.info('[ServiceWorker] Install');
     e.waitUntil(
         caches.open(cacheName).then(function(cache) {
-            console.log('[ServiceWorker] Caching app shell');
-            return cache.addAll(filesToCache);
+            console.info('[ServiceWorker] Caching app shell');
+            return cache.addAll(filesToCache).then(function() {
+                    console.info('All files are cached');
+                    return self.skipWaiting(); //To forces the waiting service worker to become the active service worker
+                })
+                .catch(function(error) {
+                    console.error('Failed to cache', error);
+                });
         })
     );
 });
 
+/*
+  ACTIVATE EVENT: triggered once after registering, also used to clean up caches.
+*/
+
 self.addEventListener('activate', function(e) {
-    console.log('[ServiceWorker] Activate');
+    console.info('[ServiceWorker] Activate');
     e.waitUntil(
         caches.keys().then(function(keyList) {
             return Promise.all(keyList.map(function(key) {
                 if (key !== cacheName && key !== dataCacheName) {
-                    console.log('[ServiceWorker] Removing old cache', key);
+                    console.info('[ServiceWorker] Removing old cache', key);
                     return caches.delete(key);
                 }
             }));
@@ -72,28 +88,36 @@ self.addEventListener('activate', function(e) {
     return self.clients.claim();
 });
 
-self.addEventListener('fetch', function(e) {
-    console.log('[Service Worker] Fetch', e.request.url);
-    var dataUrl = 'https://wecat.herokuapp.com/users/getAll';
-    if (e.request.url.indexOf(dataUrl) > -1) {
-        e.respondWith(
-            caches.open(dataCacheName).then(function(cache) {
-                return fetch(e.request).then(function(response) {
-                    cache.put(e.request.url, response.clone());
-                    return response;
-                });
-            })
-        );
-    } else {
-        /*
-         * The app is asking for app shell files. In this scenario the app uses the
-         * "Cache, falling back to the network" offline strategy:
-         * https://jakearchibald.com/2014/offline-cookbook/#cache-falling-back-to-network
-         */
-        e.respondWith(
-            caches.match(e.request).then(function(response) {
-                return response || fetch(e.request);
-            })
-        );
-    }
+
+/*
+  FETCH EVENT: triggered for every request made by index page, after install.
+*/
+
+//Adding `fetch` event listener
+self.addEventListener('fetch', function(event) {
+    console.info('[ServiceWorker] Fetch');
+    var request = event.request;
+    //Tell the browser to wait for newtwork request and respond with below
+    event.respondWith(
+        //If request is already in cache, return it
+        caches.match(request).then(function(response) {
+            if (response) {
+                return response;
+            }
+
+            //if request is not cached, add it to cache
+            return fetch(request).then(function(response) {
+                var responseToCache = response.clone();
+                caches.open(cacheName).then(
+                    function(cache) {
+                        cache.put(request, responseToCache).catch(function(err) {
+                            console.warn(request.url + ': ' + err.message);
+                        });
+                    });
+
+                return response;
+            });
+        })
+    );
 });
+

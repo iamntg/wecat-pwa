@@ -150,8 +150,6 @@
         //adding click events to the card
         card.addEventListener("click", toggleCardLayout);
 
-        console.log(data.name + " ---> " + getAge(data.dateOfBirth) + " ---> " + isAvailable(data.lastDonated));
-
         if (app.isLoading) {
             app.spinner.setAttribute('hidden', true);
             app.container.removeAttribute('hidden');
@@ -201,8 +199,6 @@
                 card.querySelector('.accountant-indication').removeAttribute('hidden');
             }
         }
-
-        console.log(data.name + " ---> " + getAge(data.dateOfBirth) + " ---> " + isAvailable(data.lastDonated));
 
         if (app.isLoading) {
             app.spinner.setAttribute('hidden', true);
@@ -807,10 +803,4 @@
     }
 
 
-    // For registering the service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-               .register('./service-worker.js')
-               .then(function() { console.log('Service Worker Registered'); });
-    }
 })();
