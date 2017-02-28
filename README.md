@@ -55,9 +55,9 @@ The app functionalities and preview shown below
 
 - [x] - Fetch API
 
-- [x] - Background sync
+- [] - Background sync
 
-- [x] - Web share
+- [] - Web share
 
 
 <div align="center">

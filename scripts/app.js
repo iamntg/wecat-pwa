@@ -139,13 +139,20 @@
         card.querySelector('.main-details .contact .phone-no').textContent = data.contact;
         card.querySelector('.main-details .contact .phone-no').href = "tel:" + data.contact;
 
-        var lastdonated = new Date(data.lastDonated);
-        var lastdonDate = lastdonated.getUTCDate() + '-' + monthNames[lastdonated.getMonth()] + '-' + lastdonated.getFullYear();
-        card.querySelector('.last-donated .don-date').textContent = lastdonDate;
-        var today = new Date();
-        var timeDiff = Math.abs(today.getTime() - lastdonated.getTime());
-        var diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-        card.querySelector('.remaining-days .rem-days').textContent = diffDays;
+        var lastdonated = "";
+        if(data.lastDonated) {
+            var lastdonDate = new Date(data.lastDonated);
+            lastdonated = lastdonDate.getUTCDate() + '-' + monthNames[lastdonDate.getMonth()] + '-' + lastdonDate.getFullYear();
+        } else {
+            lastdonated = "Date Not Available";
+        }
+        
+        card.querySelector('.last-donated .don-date').textContent = lastdonated;
+        if(data.daysRemaining) {
+            card.querySelector('.remaining-days .rem-days').textContent = data.daysRemaining;
+        } else {
+            card.querySelector('.remaining-days .rem-days').textContent = "Several";
+        }
 
         //adding click events to the card
         card.addEventListener("click", toggleCardLayout);
@@ -240,8 +247,14 @@
         card.querySelector('.detail-container .description').textContent = data.description;
         card.querySelector('.medicine-count').textContent = data.count;
 
-        var expiryDate = new Date(data.expiryDate);
-        var expiry = expiryDate.getUTCDate() + '-' + monthNames[expiryDate.getMonth()] + '-' + expiryDate.getFullYear();
+        var expiry = "";
+        if(data.expiryDate) {
+            var expiryDate = new Date(data.expiryDate);
+            expiry = expiryDate.getUTCDate() + '-' + monthNames[expiryDate.getMonth()] + '-' + expiryDate.getFullYear();
+        } else {
+            expiry = "Not Available";
+        }
+        
         card.querySelector('.detail-container .expiry-date strong').textContent = expiry;
 
         if (data.isExpired) {
