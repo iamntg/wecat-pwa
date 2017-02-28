@@ -141,8 +141,8 @@
             console.log('params', params);
             homeService.updateUser(params, function(respData) {
                 console.log('respData', respData);
-                _self.formData = angular.copy(userFormModel);
                 showSnackBar(_self.formData.name + " has been updated!");
+                _self.formData = angular.copy(userFormModel);
                 getAllUsers();
             }, function(err) {
                 console.log('err', err);
