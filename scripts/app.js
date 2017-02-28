@@ -362,7 +362,7 @@
 
                 } else {
                     // Return the initial weather forecast since no data is available.
-                    if (!app.currentUserList.length) {
+                    if (app.currentUserList && !app.currentUserList.length) {
                         // app.updateUserCard(initialUserData);
                         document.querySelector('.emp-skelton').removeAttribute('hidden');
                     }
