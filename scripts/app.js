@@ -105,6 +105,7 @@
         if (!card) {
             card = app.cardTemplate.cloneNode(true);
             card.classList.remove('cardTemplate');
+            card.classList.remove('hide-element');
             card.removeAttribute('hidden');
             app.container.appendChild(card);
             app.visibleCards[data.id] = card;
@@ -174,6 +175,7 @@
         if (!card) {
             card = app.membercardTemplate.cloneNode(true);
             card.classList.remove('membercardTemplate');
+            card.classList.remove('hide-element');
             card.removeAttribute('hidden');
             app.memberPageContainer.appendChild(card);
             app.visibleMemberCards[data.id] = card;
@@ -224,6 +226,7 @@
         if (!card) {
             card = app.medicinecardTemplate.cloneNode(true);
             card.classList.remove('medicinecardTemplate');
+            card.classList.remove('hide-element');
             card.removeAttribute('hidden');
             app.medikitPageContainer.appendChild(card);
             app.visibleMedicineCards[data.id] = card;
@@ -356,6 +359,7 @@
                     app.currentUserList = response;
                     app.saveSelectedUsers();
                     document.querySelector('.emp-skelton').setAttribute('hidden', true);
+                    document.querySelector('.emp-skelton').classList.add('hide-element');
                     for (var inc = 0; inc < response.length; inc++) {
                         app.updateUserCard(response[inc]);
                     }
@@ -364,6 +368,7 @@
                     // Return the initial weather forecast since no data is available.
                     if (app.currentUserList && !app.currentUserList.length) {
                         // app.updateUserCard(initialUserData);
+                        document.querySelector('.emp-skelton').classList.remove('hide-element');
                         document.querySelector('.emp-skelton').removeAttribute('hidden');
                     }
                 }
@@ -411,6 +416,7 @@
                     app.currentMemberList = response;
                     app.saveSelectedMembers();
                     document.querySelector('.member-skelton').setAttribute('hidden', true);
+                    document.querySelector('.member-skelton').classList.add('hide-element');
                     for (var inc = 0; inc < response.length; inc++) {
                         app.updateMemberCard(response[inc]);
                     }
@@ -419,6 +425,7 @@
                     // Return the initial weather forecast since no data is available.
                     if (!app.currentMemberList.length) {
                         // app.updateMemberCard(initialUserData);
+                        document.querySelector('.member-skelton').classList.remove('hide-element');
                         document.querySelector('.member-skelton').removeAttribute('hidden');
                     }
                 }
@@ -466,6 +473,7 @@
                     app.currentMedicineList = response;
                     app.saveSelectedMedicines();
                     document.querySelector('.medicine-skelton').setAttribute('hidden', true);
+                    document.querySelector('.medicine-skelton').classList.add('hide-element');
                     for (var inc = 0; inc < response.length; inc++) {
                         app.updateMedicineCard(response[inc]);
                     }
@@ -474,6 +482,7 @@
                     // Return the initial weather forecast since no data is available.
                     if (!app.currentMedicineList.length) {
                         // app.updateMedicineCard(initialUserData);
+                        document.querySelector('.medicine-skelton').classList.remove('hide-element');
                         document.querySelector('.medicine-skelton').removeAttribute('hidden');
                     }
                 }
@@ -537,12 +546,14 @@
         app.currentUserList = value;
         if (app.currentUserList) {
             document.querySelector('.emp-skelton').setAttribute('hidden', true);
+            document.querySelector('.emp-skelton').classList.add('hide-element');
             app.currentUserList.forEach(function(user) {
                 app.updateUserCard(user);
             });
         } else {
             /* The user is using the app for the first time.
              */
+            document.querySelector('.emp-skelton').classList.remove('hide-element');
             document.querySelector('.emp-skelton').removeAttribute('hidden');
             /*app.updateUserCard(initialUserData);
             app.currentUserList = [initialUserData];
@@ -559,6 +570,7 @@
             app.currentMemberList = value;
             if (app.currentMemberList) {
                 document.querySelector('.member-skelton').setAttribute('hidden', true);
+                document.querySelector('.member-skelton').classList.add('hide-element');
                 app.currentMemberList.forEach(function(user) {
                     app.updateMemberCard(user);
                 });
@@ -568,6 +580,7 @@
                 /*app.updateMemberCard(initialUserData);
                 app.currentMemberList = [initialUserData];
                 app.saveSelectedMembers();*/
+                document.querySelector('.member-skelton').classList.remove('hide-element');
                 document.querySelector('.member-skelton').removeAttribute('hidden');
             }
             app.getWecatMembers();
@@ -581,6 +594,7 @@
             app.currentMedicineList = value;
             if (app.currentMedicineList) {
                 document.querySelector('.medicine-skelton').setAttribute('hidden', true);
+                document.querySelector('.medicine-skelton').classList.add('hide-element');
                 app.currentMedicineList.forEach(function(user) {
                     app.updateMedicineCard(user);
                 });
@@ -590,6 +604,7 @@
                 /*app.updateMedicineCard(initialUserData);
                 app.currentMedicineList = [initialUserData];
                 app.saveSelectedMedicines();*/
+                document.querySelector('.medicine-skelton').classList.remove('hide-element');
                 document.querySelector('.medicine-skelton').removeAttribute('hidden');
             }
             app.getMedikitList();
@@ -711,6 +726,7 @@
         console.log('finalIDList', finalIDList);
         for (var userinc = 0; userinc < app.currentUserList.length; userinc++) {
             var isfound = false;
+            app.visibleCards[app.currentUserList[userinc].id].classList.remove('hide-element');
             app.visibleCards[app.currentUserList[userinc].id].removeAttribute('hidden');
             for (var inc = 0; inc < finalIDList.length; inc++) {
                 if (app.currentUserList[userinc].id === finalIDList[inc].id) {
@@ -720,6 +736,7 @@
             }
             if (!isfound) {
                 app.visibleCards[app.currentUserList[userinc].id].setAttribute('hidden', true);
+                app.visibleCards[app.currentUserList[userinc].id].classList.add('hide-element');
             }
         }
         console.log('isFiltered', isFiltered);
@@ -791,6 +808,7 @@
         clearSelectedValues(bloodgroupFilter[1]);
         for (var userinc = 0; userinc < app.currentUserList.length; userinc++) {
             app.visibleCards[app.currentUserList[userinc].id].removeAttribute('hidden');
+            app.visibleCards[app.currentUserList[userinc].id].classList.remove('hide-element');
         }
     }
 

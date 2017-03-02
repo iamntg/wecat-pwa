@@ -1334,12 +1334,11 @@ div._2iwx {
     top: 40px;
 }
 
-
-.app_offline header{
-  background-color: #6b6b6b;
+.app_offline header {
+    background-color: #6b6b6b;
 }
 
-.app_offline .card{
+.app_offline .card {
     background-color: #ececec !important;
 }
 
@@ -1400,7 +1399,9 @@ div._2iwx {
         display: inline-block;
         margin: 10px 2%;
     }
-    .wecat-emp-card.collapsed-card {
+    .wecat-emp-card.collapsed-card,
+    .wecat-emp-card.medicine-card,
+    .wecat-emp-card.member-card {
         margin: 10px 2%;
     }
 }
@@ -1411,7 +1412,9 @@ div._2iwx {
         width: 35%;
         margin: 10px 7%;
     }
-    .wecat-emp-card.collapsed-card {
+    .wecat-emp-card.collapsed-card,
+    .wecat-emp-card.medicine-card,
+    .wecat-emp-card.member-card {
         margin: 10px 7%;
     }
 }
@@ -1423,7 +1426,9 @@ div._2iwx {
         display: inline-block;
         margin: 10px 1.5%;
     }
-    .wecat-emp-card.collapsed-card {
+    .wecat-emp-card.collapsed-card,
+    .wecat-emp-card.medicine-card,
+    .wecat-emp-card.member-card {
         margin: 10px 1.5%;
     }
 }
@@ -1435,7 +1440,13 @@ div._2iwx {
         display: inline-block;
         margin: 10px 1.5%;
     }
-    .wecat-emp-card.collapsed-card {
+    .wecat-emp-card.collapsed-card,
+    .wecat-emp-card.medicine-card,
+    .wecat-emp-card.member-card {
         margin: 10px 1.5%;
     }
+}
+
+.hide-element {
+    display: none;
 }

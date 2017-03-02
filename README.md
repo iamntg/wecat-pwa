@@ -1,6 +1,6 @@
 # WeCAT PWA  [![Build Status](https://travis-ci.org/iamntg/wecat-pwa.svg?branch=master)](https://travis-ci.org/iamntg/wecat-pwa)
 
-Progressive Web App built for a non profit community called WeCAT used for tracking employee's blood donation details in Triassic solutions Pvt Ltd.
+Progressive Web App built for a non profit community called WeCAT used for tracking employee's blood donation details in an organization.
 
 ![ScreenShot](https://raw.githubusercontent.com/iamntg/wecat-pwa/master/others/wecat.png)
 
