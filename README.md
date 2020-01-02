@@ -60,6 +60,11 @@ The app functionalities and preview shown below
 - [x] - Web share
 
 
+## Lighthouse Audit Score
+
+![Audit](https://raw.githubusercontent.com/iamntg/wecat-pwa/master/others/LightHouseAudits.png)
+
+
 <div align="center">
   <sub>If you found a bug or some improvments, feel free to raise an issue!</sub>
 </div>
